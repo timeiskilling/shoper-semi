@@ -1,0 +1,18 @@
+[package]
+name = "git_shop"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5.1", features = ["json"] }
+tokio = { version = "1.41.1", features = ["full"] }
+dotenv = "0.15"
+diesel = { version = "2.2.5", features = ["postgres","r2d2"] }
+r2d2 = "0.8"
+rocket_dyn_templates = "0.2.0"
+uuid = { version = "1.0", features = ["v4"] }   
+chrono = "0.4.39"
+
+[dependencies.rocket_sync_db_pools]
+version = "0.1.0"
+features = ["diesel_postgres_pool"]
