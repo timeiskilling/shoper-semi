@@ -3,128 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мій Інтернет-Магазин</title>
+    <title>Товар</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        nav {
-            background-color: #2c3e50;
-            width: 250px;
-            height: 100vh;
-            padding: 2rem 1rem;
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-        }
-        nav a {
-            display: block;
-            color: white;
-            margin: 1rem 0;
-            text-decoration: none;
-            font-size: 1.2rem;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-        nav a:hover {
-            background-color: #34495e;
-        }
-        header {
-            background-color: #3498db;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            width: 100%;
-        }
-        .container {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
+            margin: 20px;
+            background-color: #f8f8f8;
         }
         .product {
-            background-color: white;
-            padding: 1rem;
-            width: calc(33.333% - 2rem);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .product:hover {
-            transform: translateY(-5px);
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+            width: 300px;
+            margin: 0 auto;
         }
         .product img {
-            max-width: 100%;
-            height: auto;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 1rem;
+            width: 80%;
+            display: block;
+            margin: 0 auto;
         }
-        .product h2 {
-            font-size: 1.5rem;
-            margin: 0.5rem 0;
+        .product-info {
+            margin-top: 10px;
         }
-        .product p {
-            margin: 0.5rem 0;
-            font-size: 1.1rem;
-            color: #555;
+        .product-info h1 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
         }
-        .product button {
-            background-color: #3498db;
-            color: white;
+        .product-info p {
+            font-size: 16px;
+            color: #777;
+            text-align: center;
+        }
+        .product-price {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #e60023;
+            text-align: center;
+        }
+        .product-old-price {
+            text-decoration: line-through;
+            color: #777;
+            margin-left: 10px;
+        }
+        .buy-button {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .buy-button button {
+            padding: 10px 20px;
+            background-color: #e60023;
+            color: #fff;
             border: none;
-            padding: 0.75rem 1.5rem;
             cursor: pointer;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        .product button:hover {
-            background-color: #2980b9;
-        }
-        @media (max-width: 768px) {
-            .product {
-                width: calc(50% - 1rem);
-            }
-        }
-        @media (max-width: 480px) {
-            .product {
-                width: 100%;
-            }
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="#">Головна</a>
-        <a href="#">Каталог</a>
-        <a href="#">Про нас</a>
-        <a href="#">Контакти</a>
-    </nav>
-    <div>
-        <div class="container">
-            <div class="product">
-                <img src="https://via.placeholder.com/300" alt="Product Image">
-                <h2>Назва продукту</h2>
-                <p>Ціна: 100 грн</p>
-                <button>Додати до кошика</button>
-            </div>
-            <div class="product">
-                <img src="https://via.placeholder.com/300" alt="Product Image">
-                <h2>Назва продукту 2</h2>
-                <p>Ціна: 150 грн</p>
-                <button>Додати до кошика</button>
-            </div>
-            <div class="product">
-                <img src="https://via.placeholder.com/300" alt="Product Image">
-                <h2>Назва продукту 3</h2>
-                <p>Ціна: 200 грн</p>
-                <button>Додати до кошика</button>
+    {{#each items}}
+    <div class="product">
+        <img src="/picture/{{file_path}}" alt="{{name}}" class="product-image">
+        <div class="product-info">
+            <h1>{{name}}</h1>
+            <p>Продаж: {{seller}}</p>
+            <p>Рейтинг: {{rating}}/5 ({{reviews}} відгуків)</p>
+            <p>Код товару: {{code}}</p>
+            <p class="product-price">{{price}} грн <span class="product-old-price">{{old_price}} грн</span></p>
+            <div class="buy-button">
+                <button>Купити</button>
             </div>
         </div>
     </div>
+    {{/each}}
 </body>
 </html>
+    

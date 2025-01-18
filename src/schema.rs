@@ -7,5 +7,6 @@ diesel::table! {
         name -> Varchar,
         price -> Int4,
         description -> Nullable<Text>,
+        file_path -> Varchar,
     }
 }

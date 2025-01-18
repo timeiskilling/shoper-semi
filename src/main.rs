@@ -4,8 +4,9 @@ use database::establish_pool;
 pub mod database;
 pub mod schema;
 mod routes;
-use rocket_dyn_templates::Template;
 use routes::product_routes::*;
+use rocket_dyn_templates::Template;
+use routes::home_page::*;
 extern crate rocket_dyn_templates;
 
 
@@ -13,7 +14,9 @@ extern crate rocket_dyn_templates;
 fn rocket() -> _ {
     let pool = establish_pool();
     rocket::build()
+        // .mount("/", FileServer::from("D:/picture")) 
         .manage(pool)
         .attach(Template::fairing())
-        .mount("/", routes![list_of_item])
+        .mount("/", routes![list_of_item,picture,product_detalis])
+        
 }

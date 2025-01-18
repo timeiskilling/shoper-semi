@@ -8,6 +8,7 @@ pub struct Product {
     pub name: String,
     pub price: i32,
     pub description: Option<String>,
+    pub file_path : String,
 }
 
 
@@ -17,4 +18,5 @@ pub struct InsertProd<'a> {
     pub name : &'a str,
     pub price : i32,
     pub description: Option<&'a str>,
+    pub file_path : String,
 }
