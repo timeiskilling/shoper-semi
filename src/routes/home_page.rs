@@ -11,14 +11,25 @@ use crate::schema::products::dsl::*;
 
 #[get("/")]
 pub async fn list_of_item(pool: &State<DbPool>) -> Template {
-    let result = products
-        .load::<Product>(&mut pool.get().expect("Failed to get connection"))
-        .expect("Error loading items");
+    let mut conn = pool.get().unwrap();
+    let result = tokio::task::spawn_blocking(move || {
+        products
+            .load::<Product>(&mut conn)
+            .unwrap()
+    })
+    .await;
 
-    let mut context = std::collections::HashMap::new();
-    context.insert("items", result); 
+    if let Ok(vec) = result {
+        let mut context = std::collections::HashMap::new();
+        context.insert("items", vec);
 
-    Template::render("index1", &context)
+        Template::render("index1", &context)
+    } else {
+        let mut context = std::collections::HashMap::new();
+        context.insert("error", "Failed to load product details");
+
+        Template::render("error", &context)
+    }
 }
 
 #[get("/picture/<file..>")] 

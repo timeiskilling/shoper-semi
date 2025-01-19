@@ -1,6 +1,5 @@
 #[macro_use] extern crate rocket;
 use database::establish_pool;
-
 pub mod database;
 pub mod schema;
 mod routes;
@@ -14,9 +13,8 @@ extern crate rocket_dyn_templates;
 fn rocket() -> _ {
     let pool = establish_pool();
     rocket::build()
-        // .mount("/", FileServer::from("D:/picture")) 
         .manage(pool)
         .attach(Template::fairing())
-        .mount("/", routes![list_of_item,picture,product_detalis])
+        .mount("/", routes![list_of_item,picture,product_details])
         
 }
