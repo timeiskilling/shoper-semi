@@ -1,6 +1,15 @@
 // @generated automatically by Diesel CLI.
 
 diesel::table! {
+    categories (id) {
+        id -> Int4,
+        #[max_length = 255]
+        name -> Varchar,
+        parent_id -> Nullable<Int4>,
+    }
+}
+
+diesel::table! {
     products (id) {
         id -> Int4,
         #[max_length = 255]
@@ -10,3 +19,8 @@ diesel::table! {
         file_path -> Varchar,
     }
 }
+
+diesel::allow_tables_to_appear_in_same_query!(
+    categories,
+    products,
+);
