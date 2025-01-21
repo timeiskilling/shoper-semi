@@ -14,9 +14,26 @@
             padding: 20px;
             color: white;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             height: 100vh;
+        }
+
+        .nav-button {
+            background-color: #1DB954;
+            border: none;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+            align-self: flex-start; /* Align button to the left */
+        }
+
+        .nav-button:hover {
+            background-color: #1ed760;
         }
 
         .container {
@@ -95,7 +112,7 @@
         .buy-button button {
             background-color: #1DB954;
             border: none;
-            color: white;
+            color: rgb(0, 0, 0);
             padding: 10px 20px;
             font-size: 16px;
             margin: 10px 0;
@@ -218,6 +235,7 @@
     </style>
 </head>
 <body>
+    <button class="nav-button" onclick="location.href='/'">Головна</button>
     <div class="container">
         {{#each items}}
         <div class="product-card">
@@ -278,7 +296,7 @@
             saveCart();
         }
 
-        function updateCart() {
+               function updateCart() {
             const cartItems = document.getElementById('cartItems');
             const cartTotal = document.getElementById('cartTotal');
             const cartCount = document.getElementById('cartCount');

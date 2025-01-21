@@ -17,8 +17,11 @@ diesel::table! {
         price -> Int4,
         description -> Nullable<Text>,
         file_path -> Varchar,
+        category_id -> Nullable<Int4>,
     }
 }
+
+diesel::joinable!(products -> categories (category_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     categories,
