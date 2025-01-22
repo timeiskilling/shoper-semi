@@ -3,6 +3,7 @@ use database::establish_pool;
 pub mod database;
 pub mod schema;
 pub mod routes;
+use rocket::fs::FileServer;
 use routes::product_routes::*;
 use rocket_dyn_templates::Template;
 use routes::home_page::*;
@@ -17,5 +18,5 @@ fn rocket() -> _ {
         .manage(pool)
         .attach(Template::fairing())
         .mount("/", routes![list_of_item,picture,product_details,take_category])
-        
+        .mount("/static", FileServer::from("static"))
 }
