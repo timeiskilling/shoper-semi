@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список товарів</title>
+    <link rel="stylesheet" href="/static/style/home_page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <header>
+    <h1 style="color: black;"><a href="/" style="text-decoration: none; color: inherit;">authify</a></h1>
+</header>
+    <nav class="nav-container">
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="location.href='/category/1'">Electronics</button>
+            <button class="nav-button" onclick="location.href='/category/2'">Clothing</button>
+        </div>
+        <div class="centered-search-container">
+            <form method="get" action="/search">
+                <input type="text" name="query" placeholder="Search...">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+    <main>
+        {{#if items.length}}
+            <ul class="product-list">
+                {{#each items}}
+                    <li class="product-item">
+                        <a href="/product/{{id}}" class="product-link">
+                            <img src="/picture/{{file_path}}" alt="{{name}}" class="product-image">
+                        </a>
+                        <div class="product-details">
+                            <a href="/product/{{id}}" class="product-link">
+                                <strong class="product-name">{{name}}</strong>
+                            </a>
+                            <span class="product-price">{{price}} грн</span>
+                            <p class="product-description">{{description}}</p>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        {{else}}
+            <p class="centered-text">No products found for "{{query}}"</p>
+            <div class="suggestions">
+                <p>Try entering the manufacturer and/or model name. For example: Apple iPad (or iPad)</p>
+                <p>Make sure there are no grammatical errors in the name.</p>
+            </div>
+        {{/if}}
+    </main>
+    <script src="/static/js/home_page.js"></script>
+</body>
+</html>

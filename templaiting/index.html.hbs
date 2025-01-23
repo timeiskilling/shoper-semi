@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/style/product.css">
 </head>
 <body>
-    <button class="nav-button" onclick="location.href='/'">Головна</button>
+    <button class="nav-button" onclick="location.href='/'">Main</button>
     <div class="container">
         {{#each items}}
         <div class="product-card">
@@ -19,7 +19,7 @@
                     <p>Рейтинг: 4/5</p>
                     <p class="product-price">{{price}} грн</p>
                     <div class="buy-button">
-                        <button onclick="addToCart('{{name}}', '{{price}}')">Купити</button>
+                        <button onclick="addToCart('{{name}}', '{{price}}', '{{file_path}}')">Купити</button>
                     </div>
                 </div>
             </div>
@@ -39,18 +39,28 @@
         🛒<span id="cartCount">0</span>
     </button>
 
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-modal-content">
-            <h2>Кошик</h2>
-            <div id="cartItems">
-                <!-- Тут будуть відображатись товари, додані до кошика -->
+   <div class="cart-modal" id="cartModal">
+    <div class="cart-modal-content">
+        <h2>Кошик</h2>
+        <div id="cartItems">
+            {{#each cartItems}}
+            <div class="cart-item">
+                <img src="/picture/{{file_path}}" alt="{{name}}" class="cart-item-image">
+                <div class="cart-item-info">
+                    <h3>{{name}}</h3>
+                    <p class="cart-item-price">{{price}} грн</p>
+                </div>
             </div>
-            <div class="cart-total" id="cartTotal">
-                Всього: 0 грн
-            </div>
-            <button onclick="toggleCartModal()">Закрити</button>
+            {{/each}}
         </div>
+        <div class="cart-total" id="cartTotal">
+            Всього: 0 грн
+        </div>
+        <button onclick="toggleCartModal()">Закрити</button>
     </div>
+</div>
+
+
     <script src="/static/js/product.js"></script>
 </body>
 </html>

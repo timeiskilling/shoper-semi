@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Одяг</title>
     <link rel="stylesheet" href="/static/style/categor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="header-left">
-            <p1>authify</p1>
-            <h1 style="color: black;">Одяг</h1>
+            <p1><a href="/" style="text-decoration: none; color: inherit;">authify</a></p1>
+           <h1 style="color: black; display: inline-block;">Clothing</h1>
+            <div class="centered-search-container" style="display: inline-block; margin-left: 20px;">
+                <form method="get" action="/search">
+                    <input type="text" name="query" placeholder="Search...">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
         </div>
-        <button class="nav-button" onclick="location.href='/'">Головна</button>
+        <button class="nav-button" onclick="location.href='/'">Main page</button>
     </header>
     <main>
         <ul class="product-list">

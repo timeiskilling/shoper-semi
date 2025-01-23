@@ -12,11 +12,11 @@ use routes::shopping_cart::cart::*;
 
 
 #[launch]
-fn rocket() -> _ {
-    let pool = establish_pool();
+async fn rocket() -> _ {
+    let pool = establish_pool().await;
     rocket::build()
         .manage(pool)
         .attach(Template::fairing())
-        .mount("/", routes![list_of_item,picture,product_details,take_category])
+        .mount("/", routes![list_of_item,picture,product_details,take_category,search_by_query])
         .mount("/static", FileServer::from("static"))
 }

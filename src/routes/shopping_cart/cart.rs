@@ -19,7 +19,7 @@ pub async fn take_category(pool : &State<DbPool>, ids : i32 ) -> Template {
         let mut context = std::collections::HashMap::new();
         context.insert("items", vec);
 
-        // Перевірка ID категорії та рендеринг відповідного шаблону
+       
         match ids {
             1 => Template::render("electro", &context),
             2 => Template::render("clothing", &context),

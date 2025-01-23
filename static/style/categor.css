@@ -14,7 +14,7 @@
             color: black;
             font-family: 'Shadows Into Light', cursive;
             font-size: 2em;
-            margin-right: 1em; /* Add spacing between p1 and h1 */
+            margin-right: 1em; 
         }
 
         header {
@@ -27,11 +27,59 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .header-left {
+        .header-container {
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
-
+        
+        .header-right {
+            display: flex;
+            align-items: center; 
+        }
+        
+        .centered-text {
+            text-align: center;
+            font-size: 24px; 
+            margin-top: 20px;
+            font-family: 'Titillium Web', serif;
+            color: #1db954;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .centered-search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1px;
+        }
+        
+        .centered-search-container input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid transparent; 
+            border-radius: 25px 0 0 25px;
+            outline: none;
+            width: 300px;
+            box-sizing: border-box;
+        }
+        
+        .centered-search-container button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #000000;
+            border: 2px solid transparent; 
+            border-radius: 0 25px 25px 0;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .centered-search-container button i {
+            color: #333;
+        }
+        
         .nav-button {
             background-color: #000000;
             border: none;
@@ -119,4 +167,11 @@
         .product-link {
             text-decoration: none;
             color: inherit;
+        }
+
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.5s;
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
         }
