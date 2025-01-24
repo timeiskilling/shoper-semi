@@ -90,7 +90,7 @@ function updateCart() {
         cartItems.appendChild(cartItem);
     });
 
-    // Додавання стилів для кнопки "Видалити"
+   
     const removeButtons = document.querySelectorAll('.remove-button');
     removeButtons.forEach(button => {
         button.style.backgroundColor = '#333';
@@ -129,3 +129,11 @@ function toggleCartModal() {
     cartModal.style.display = (cartModal.style.display === 'flex') ? 'none' : 'flex';
 }
 
+
+function validateSearch() {
+    const searchInput = document.getElementById('searchInput').value.trim();
+    if (searchInput === '') {
+        return false; 
+    }
+    return true; 
+}

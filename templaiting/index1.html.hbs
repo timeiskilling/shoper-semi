@@ -41,10 +41,10 @@
             <button class="nav-button" onclick="location.href='/category/2'">Clothing</button>
         </div>
         <div class="centered-search-container">
-            <form method="get" action="/search">
-                <input type="text" name="query" placeholder="Search...">
+        <form method="get" action="/search" onsubmit="return validateSearch()">
+                <input type="text" id="searchInput" name="query" placeholder="Search...">
                 <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
+        </form>
         </div>
         <div class="hamburger" onclick="toggleMenu()">
             <div></div>

@@ -7,7 +7,6 @@ use crate::database::insert_table::Product;
 use crate::database::DbPool;
 use crate::schema::products::dsl::*;
 
-use diesel::dsl::sql;
 use diesel::sql_types::Text;
 
 define_sql_function!(fn lower(x: Text) -> Text);

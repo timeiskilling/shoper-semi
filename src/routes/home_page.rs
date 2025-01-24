@@ -7,7 +7,6 @@ use rocket_dyn_templates::Template;
 use crate::database::insert_table::Product;
 use crate::database::DbPool;
 use crate::schema::products::dsl::*;
-use rocket::http::ContentType;
 
 
 
