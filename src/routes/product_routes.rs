@@ -1,38 +1,38 @@
-use diesel::query_dsl::methods::FilterDsl;
+use diesel::query_dsl::methods::{FilterDsl, FindDsl};
 use diesel::{define_sql_function,ExpressionMethods, RunQueryDsl, TextExpressionMethods};
 use rocket::State;
 use rocket_dyn_templates::Template;
 use tokio::task::spawn_blocking;
-use crate::database::insert_table::Product;
+use crate::database::insert_table::{Product, ProductImage};
 use crate::database::DbPool;
 use crate::schema::products::dsl::*;
-
+use crate::schema::product_images::dsl::*;
+use rocket::serde::json::json;
 use diesel::sql_types::Text;
 
 define_sql_function!(fn lower(x: Text) -> Text);
 
-#[get("/product/<other_id>")]
-pub async fn product_details(other_id: i32, pool: &State<DbPool>) -> Template {
+#[get("/product/<ids>")]
+pub async fn product(pool: &State<DbPool>, ids: i32) -> Template {
     let mut conn = pool.get().unwrap();
-    let result = spawn_blocking(move || {
-        products
-            .filter(id.eq(other_id))
-            .load::<Product>(&mut conn)
-            .unwrap()
-    })
-    .await;
+    let mut conn2 = pool.get().unwrap();
+    let product_result = tokio::task::spawn_blocking(move || {
+        products.find(ids).first::<Product>(&mut conn).unwrap()
+    }).await;
 
-    if let Ok(vec) = result {
-        let mut context = std::collections::HashMap::new();
-        context.insert("items", vec);
+    let images_result = tokio::task::spawn_blocking(move || {
+        product_images.filter(product_id.eq(&ids)).load::<ProductImage>(&mut conn2).unwrap()
+    }).await;
 
-        Template::render("index", &context)
-    } else {
-        
-        let mut context = std::collections::HashMap::new();
-        context.insert("error", "Failed to load product details");
-
-        Template::render("error", &context)
+    match (product_result, images_result) {
+        (Ok(product), Ok(image_list)) => {
+            let context = json!({
+                "product": product,
+                "images": image_list
+            });
+            Template::render("index", &context)
+        },
+        _ => Template::render("error", &json!({"error": "Failed to load product or images"})),
     }
 }
 

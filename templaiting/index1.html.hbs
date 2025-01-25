@@ -11,62 +11,71 @@
     <header>
         <h1><a href="/" id="authify-link" style="text-decoration: none; color: inherit;">authify</a></h1>
         <button class="cart-icon" onclick="toggleCartModal()">
-        🛒<span id="cartCount">0</span>
-    </button>
-
-   <div class="cart-modal" id="cartModal">
-    <div class="cart-modal-content">
-        <h2>Кошик</h2>
-        <div id="cartItems">
-            {{#each cartItems}}
-            <div class="cart-item">
-                <img src="/picture/{{file_path}}" alt="{{name}}" class="cart-item-image">
-                <div class="cart-item-info">
-                    <h3>{{name}}</h3>
-                    <p class="cart-item-price">{{price}} грн</p>
+            🛒<span id="cartCount">0</span>
+        </button>
+        <div class="cart-modal" id="cartModal">
+            <div class="cart-modal-content">
+                <h2>Кошик</h2>
+                <div id="cartItems">
+                    {{#each cartItems}}
+                    <div class="cart-item">
+                        <img src="/picture/{{file_path}}" alt="{{name}}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <h3>{{name}}</h3>
+                            <p class="cart-item-price">{{price}} грн</p>
+                        </div>
+                    </div>
+                    {{/each}}
                 </div>
+                <div class="cart-total" id="cartTotal">
+                    Всього: 0 грн
+                </div>
+                <button onclick="toggleCartModal()">Закрити</button>
             </div>
-            {{/each}}
         </div>
-        <div class="cart-total" id="cartTotal">
-            Всього: 0 грн
-        </div>
-        <button onclick="toggleCartModal()">Закрити</button>
-    </div>
-</div>
     </header>
     <nav class="nav-container">
         <div class="nav-buttons">
+            <div class="dropdown">
+                <button class="nav-button dropdown-button">All</button>
+                <ul class="dropdown-menu">
+                    {{#each categories}}
+                    <li class="dropdown-item">
+                        <a href="/category/{{id}}">{{name}}</a>
+                        <ul class="subcategory-menu">
+                            {{#each subcategories}}
+                            <li><a href="/category/{{../id}}/subcategory/{{id}}">{{name}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
             <button class="nav-button" onclick="location.href='/category/1'">Electronics</button>
             <button class="nav-button" onclick="location.href='/category/2'">Clothing</button>
         </div>
         <div class="centered-search-container">
-        <form method="get" action="/search" onsubmit="return validateSearch()">
+            <form method="get" action="/search" onsubmit="return validateSearch()">
                 <input type="text" id="searchInput" name="query" placeholder="Search...">
                 <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
-        </div>
-        <div class="hamburger" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
+            </form>
         </div>
     </nav>
     <main>
         <ul class="product-list">
             {{#each items}}
-                <li class="product-item">
+            <li class="product-item">
+                <a href="/product/{{id}}" class="product-link">
+                    <img src="/picture/{{file_path}}" alt="{{name}}" class="product-image">
+                </a>
+                <div class="product-details">
                     <a href="/product/{{id}}" class="product-link">
-                        <img src="/picture/{{file_path}}" alt="{{name}}" class="product-image">
+                        <strong class="product-name">{{name}}</strong>
                     </a>
-                    <div class="product-details">
-                        <a href="/product/{{id}}" class="product-link">
-                            <strong class="product-name">{{name}}</strong>
-                        </a>
-                        <span class="product-price">{{price}} грн</span>
-                        <p class="product-description">{{description}}</p>
-                    </div>
-                </li>
+                    <span class="product-price">{{price}} грн</span>
+                    <p class="product-description">{{description}}</p>
+                </div>
+            </li>
             {{/each}}
         </ul>
     </main>

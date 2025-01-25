@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #121212;
@@ -46,7 +44,6 @@ body {
 .cart-item-price, .cart-item-quantity {
     margin-top: 5px;
 }
-
 
 .cart-icon {
     position: fixed;
@@ -158,7 +155,6 @@ body {
 .cart-modal-content button:hover {
     background-color: #555;
 }
-
 
 .nav-button {
     background-color: #1DB954;
@@ -283,4 +279,55 @@ body {
 @keyframes fadeIn {
     0% {opacity: 0;}
     100% {opacity: 1;}
+}
+
+.main-image-container {
+   
+    position: sticky ;
+    text-align: center;
+}
+.main-image {
+    max-width: 100000000000000000000px !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+.image-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+.image-nav.left {
+    left: 0;
+}
+.image-nav.right {
+    right: 0;
+}
+
+.thumbnail-images {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+.thumbnail-wrapper {
+    width: 70px;
+    height: 100px;
+    overflow: hidden;
+    margin: 0 5px;
+    flex-shrink: 0;
+}
+.thumbnail-image {
+    width: 100%;
+    height: 10%;
+    object-fit: cover; 
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.thumbnail-image:hover {
+    transform: scale(1.1);
 }

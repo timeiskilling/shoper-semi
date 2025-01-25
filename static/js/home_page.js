@@ -137,3 +137,78 @@ function validateSearch() {
     }
     return true; 
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownButton = document.querySelector('.dropdown-button');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    dropdownButton.addEventListener('click', () => {
+        const isVisible = dropdownMenu.style.display === 'block';
+        dropdownMenu.style.display = isVisible ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/categories')
+        .then(response => response.json())
+        .then(categories => {
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            dropdownMenu.innerHTML = ''; 
+
+            function createCategoryList(items) {
+                const ul = document.createElement('ul');
+                ul.className = 'subcategory-menu';
+
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'dropdown-item';
+
+                    const link = document.createElement('a');
+                    link.href = `/category/${item.id}`;
+                    link.textContent = item.name;
+                    li.appendChild(link);
+
+                    if (item.subcategories && item.subcategories.length > 0) {
+                        li.appendChild(createCategoryList(item.subcategories));
+                    }
+
+                    ul.appendChild(li);
+                });
+
+                return ul;
+            }
+
+            function nestCategories(categories) {
+                const map = {};
+                const roots = [];
+
+                categories.forEach(category => {
+                    map[category.id] = { ...category, subcategories: [] };
+                });
+
+                categories.forEach(category => {
+                    if (category.parent_id) {
+                        map[category.parent_id].subcategories.push(map[category.id]);
+                    } else {
+                        roots.push(map[category.id]);
+                    }
+                });
+
+                return roots;
+            }
+
+            const nestedCategories = nestCategories(categories);
+            const categoryList = createCategoryList(nestedCategories);
+            dropdownMenu.appendChild(categoryList);
+        })
+        .catch(error => {
+            console.error('Помилка завантаження категорій:', error);
+        });
+});

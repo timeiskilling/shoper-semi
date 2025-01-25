@@ -1,4 +1,7 @@
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let currentIndex = 0;
+const images = Array.from(document.querySelectorAll('.thumbnail-image'));
+const mainImage = document.getElementById('main-image');
 
 function addToCart(name, price, filePath) {
     const item = { name, price: parseFloat(price), filePath };
@@ -35,7 +38,6 @@ function updateCart() {
         cartItems.appendChild(cartItem);
     });
 
-    // Додавання стилів для кнопки "Видалити"
     const removeButtons = document.querySelectorAll('.remove-button');
     removeButtons.forEach(button => {
         button.style.backgroundColor = '#333';
@@ -46,7 +48,7 @@ function updateCart() {
         button.style.cursor = 'pointer';
         button.style.marginTop = '0';
         button.style.transition = 'background-color 0.3s';
-        button.style.alignSelf = 'center'; // Вирівнювання по центру вертикально
+        button.style.alignSelf = 'center';
 
         button.onmouseover = () => {
             button.style.backgroundColor = '#555';
@@ -63,8 +65,6 @@ function updateCart() {
 
 updateCart();
 
-
-
 function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -74,4 +74,23 @@ function toggleCartModal() {
     cartModal.style.display = (cartModal.style.display === 'flex') ? 'none' : 'flex';
 }
 
+function setMainImage(filePath) {
+    mainImage.src = `/picture/${filePath}`;
+    currentIndex = images.findIndex(img => img.src.includes(filePath));
+}
 
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    setMainImage(images[currentIndex].src.split('/').pop());
+}
+
+function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    setMainImage(images[currentIndex].src.split('/').pop());
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (images.length > 0) {
+        mainImage.src = images[currentIndex].src;
+    }
+});

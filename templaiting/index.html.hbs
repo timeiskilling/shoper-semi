@@ -3,23 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Товар</title>
+    <title>{{product.name}}</title>
     <link rel="stylesheet" href="/static/style/product.css">
 </head>
 <body>
     <button class="nav-button" onclick="location.href='/'">Main</button>
     <div class="container">
-        {{#each items}}
         <div class="product-card">
             <div class="product">
-                <img src="/picture/{{file_path}}" alt="{{name}}" class="product-image">
+                <div class="main-image-container">
+                    <img id="main-image" src="/picture/{{images.[0].file_path}}" alt="{{product.name}}" class="main-image">
+                    <button class="image-nav left" onclick="prevImage()">&#10094;</button>
+                    <button class="image-nav right" onclick="nextImage()">&#10095;</button>
+                </div>
+                <div class="thumbnail-images">
+                    {{#each images}}
+                        <div class="thumbnail-wrapper">
+                            <img src="/picture/{{file_path}}" alt="{{../product.name}}" class="thumbnail-image" onclick="setMainImage('{{file_path}}')">
+                        </div>
+                    {{/each}}
+                </div>
                 <div class="product-info">
-                    <h1>{{name}}</h1>
-                    {{!-- <p>Рейтинг: {{rating}}/5 ({{reviews}} відгуків)</p> --}}
+                    <h1>{{product.name}}</h1>
                     <p>Рейтинг: 4/5</p>
-                    <p class="product-price">{{price}} грн</p>
+                    <p class="product-price">{{product.price}} грн</p>
                     <div class="buy-button">
-                        <button onclick="addToCart('{{name}}', '{{price}}', '{{file_path}}')">Купити</button>
+                        <button onclick="addToCart('{{product.name}}', '{{product.price}}', '{{images.[0].file_path}}')">Купити</button>
                     </div>
                 </div>
             </div>
@@ -32,35 +41,18 @@
             <p>Ви можете додати будь-які додаткові відомості, які можуть бути корисними покупцям.</p>
             <p>Ви можете додати будь-які додаткові відомості, які можуть бути корисними покупцям.</p>
         </div>
-        {{/each}}
     </div>
-
-    <button class="cart-icon" onclick="toggleCartModal()">
-        🛒<span id="cartCount">0</span>
-    </button>
-
-   <div class="cart-modal" id="cartModal">
-    <div class="cart-modal-content">
-        <h2>Кошик</h2>
-        <div id="cartItems">
-            {{#each cartItems}}
-            <div class="cart-item">
-                <img src="/picture/{{file_path}}" alt="{{name}}" class="cart-item-image">
-                <div class="cart-item-info">
-                    <h3>{{name}}</h3>
-                    <p class="cart-item-price">{{price}} грн</p>
-                </div>
+    <button class="cart-icon" onclick="toggleCartModal()">🛒<span id="cartCount">0</span></button>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-modal-content">
+            <h2>Кошик</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal">
+                Всього: 0 грн
             </div>
-            {{/each}}
+            <button onclick="toggleCartModal()">Закрити</button>
         </div>
-        <div class="cart-total" id="cartTotal">
-            Всього: 0 грн
-        </div>
-        <button onclick="toggleCartModal()">Закрити</button>
     </div>
-</div>
-
-
     <script src="/static/js/product.js"></script>
 </body>
 </html>
