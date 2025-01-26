@@ -12,15 +12,59 @@
         <div class="header-left">
             <p1><a href="/" style="text-decoration: none; color: inherit;">authify</a></p1>
             <h1 style="color: black; display: inline-block;">{{category_name}}</h1>
-            <div class="centered-search-container" style="display: inline-block; margin-left: 20px;">
-                <form method="get" action="/search">
-                    <input type="text" name="query" placeholder="Search...">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+            <nav class="nav-container">
+                <div class="nav-buttons">
+                    <div class="dropdown">
+<button class="nav-button dropdown-button" style="color: rgb(55, 44, 44); display: inline-block; font-size: 30px;">All</button>
+                        <ul class="dropdown-menu">
+                            {{#each categories}}
+                            <li class="dropdown-item">
+                                <a href="/category/{{id}}">{{name}}</a>
+                                <ul class="subcategory-menu">
+                                    {{#each subcategories}}
+                                    <li><a href="/category/{{../id}}/subcategory/{{id}}">{{name}}</a></li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <button class="nas-button" onclick="location.href='/'">Main page</button>
+        <div class="centered-search-container">
+            <form method="get" action="/search" onsubmit="return validateSearch()">
+                <input type="text" id="searchInput" name="query" placeholder="Search...">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <h1><a href="/" id="authify-link" style="text-decoration: none; color: inherit;"></a></h1>
+        <button class="cart-icon" onclick="toggleCartModal()">
+            🛒<span id="cartCount">0</span>
+        </button>
+        <div class="cart-modal" id="cartModal">
+            <div class="cart-modal-content">
+                <h2>Кошик</h2>
+                <div id="cartItems">
+                    {{#each cartItems}}
+                    <div class="cart-item">
+                        <img src="/picture/{{file_path}}" alt="{{name}}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <h3>{{name}}</h3>
+                            <p class="cart-item-price">{{price}} грн</p>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="cart-total" id="cartTotal">
+                    Всього: 0 грн
+                </div>
+                <button onclick="toggleCartModal()">Закрити</button>
             </div>
         </div>
-        <button class="nav-button" onclick="location.href='/'">Main page</button>
     </header>
+
     <main>
         <ul class="product-list">
             {{#each items}}
@@ -39,5 +83,6 @@
             {{/each}}
         </ul>
     </main>
+    <script src="/static/js/home_page.js"></script>
 </body>
 </html>

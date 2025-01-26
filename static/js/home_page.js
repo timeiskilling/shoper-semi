@@ -24,6 +24,12 @@ function handleKeyPress(event) {
 function navigate(url) {
     const content = document.getElementById('content');
     content.classList.add('fade-leave-active');
+
+    const dropdownMenu = document.querySelector('.dropdown-menu'); // Додано для закриття меню
+    if (dropdownMenu.style.display === 'block') {
+        dropdownMenu.style.display = 'none';
+    }
+
     setTimeout(() => {
         window.location.href = url;
     }, 500);
@@ -38,19 +44,6 @@ document.getElementById('authify-link').addEventListener('click', function(event
     if (window.location.pathname === '/') {
         event.preventDefault();
     }
-});
-
-function navigate(url) {
-    const content = document.getElementById('content');
-    content.classList.add('fade-leave-active');
-    setTimeout(() => {
-        window.location.href = url;
-    }, 500);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const content = document.getElementById('content');
-    content.classList.add('fade-enter-active');
 });
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -101,7 +94,7 @@ function updateCart() {
         button.style.cursor = 'pointer';
         button.style.marginTop = '0';
         button.style.transition = 'background-color 0.3s';
-        button.style.alignSelf = 'center'; // Вирівнювання по центру вертикально
+        button.style.alignSelf = 'center';
 
         button.onmouseover = () => {
             button.style.backgroundColor = '#555';
@@ -118,8 +111,6 @@ function updateCart() {
 
 updateCart();
 
-
-
 function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -129,7 +120,6 @@ function toggleCartModal() {
     cartModal.style.display = (cartModal.style.display === 'flex') ? 'none' : 'flex';
 }
 
-
 function validateSearch() {
     const searchInput = document.getElementById('searchInput').value.trim();
     if (searchInput === '') {
@@ -137,7 +127,6 @@ function validateSearch() {
     }
     return true; 
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const dropdownButton = document.querySelector('.dropdown-button');

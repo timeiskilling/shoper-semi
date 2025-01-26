@@ -11,6 +11,21 @@
 
         h1 { color: black; font-family: 'Shadows Into Light', cursive; }
         
+        li.dropdown-item > a:hover {
+            color: #fff; 
+            background-color: #969fa9; 
+            text-decoration: none; 
+        }
+        
+        
+        li.subcategory-menu li > a:hover {
+            color: #fff;
+            background-color: #28a745; 
+            text-decoration: none;
+        }
+
+        
+
         header {
             background-color: #1db954;
             color: white;

@@ -94,3 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
         mainImage.src = images[currentIndex].src;
     }
 });
+
+document.querySelector('.main-image-container').addEventListener('mousemove', function(e) {
+    const mainImage = this.querySelector('.main-image');
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left; 
+    const y = e.clientY - rect.top; 
+    const xPercent = (x / rect.width) * 100; 
+    const yPercent = (y / rect.height) * 100; 
+
+    mainImage.style.transformOrigin = `${xPercent}% ${yPercent}%`; 
+});
