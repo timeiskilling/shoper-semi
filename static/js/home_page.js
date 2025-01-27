@@ -201,3 +201,11 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Помилка завантаження категорій:', error);
         });
 });
+
+function openProductForm() {
+    document.getElementById("productFormModal").style.display = "block";
+}
+
+function closeProductForm() {
+    document.getElementById("productFormModal").style.display = "none";
+}

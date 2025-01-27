@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
 
         body {
             font-family: 'Titillium Web', serif;
@@ -283,11 +283,11 @@
     background-color: #282828;
     padding: 20px;
     border-radius: 8px;
-    width: 90%; /* Змінено ширину для адаптивності */
+    width: 90%; 
     max-width: 500px;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Poppins', sans-serif; /* Уніфікований шрифт */
+    font-family: 'Poppins', sans-serif; 
     color: white;
 }
 
@@ -302,7 +302,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #444; /* Тонкий контур */
+    border-bottom: 1px solid #444; 
     font-size: 16px;
 }
 
@@ -348,7 +348,6 @@
     background-color: #555;
 }
 
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -369,11 +368,9 @@
     height: 50px; 
 }
 
-
 .dropdown-button:hover {
     background-color: #1ed760; 
 }
-
 
 .dropdown-menu {
     display: none;
@@ -416,15 +413,14 @@
     background-color: #3d3d3d;
 }
 
-
 .dropdown:hover .dropdown-menu {
     display: block;
 }
-/* Additional CSS for alignment */
+
 .nav-buttons {
     display: flex;
     align-items: center;
 }
 .dropdown-button, .nav-button {
-    margin: 0 5px; /* Встановлено відступ між кнопками */
+    margin: 0 5px; 
 }
