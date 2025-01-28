@@ -9,7 +9,7 @@ use rocket_dyn_templates::Template;
 use routes::home_page::*;
 extern crate rocket_dyn_templates;
 use routes::shopping_cart::cart::*;
-
+mod autorization;
 
 #[launch]
 async fn rocket() -> _ {

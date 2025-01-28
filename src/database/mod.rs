@@ -1,6 +1,5 @@
 pub mod insert_table;
 mod conn;
-
 use diesel::r2d2::{ConnectionManager, Pool};
 use dotenv::dotenv;
 use diesel::PgConnection;
