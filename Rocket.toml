@@ -1,2 +1,3 @@
 [default]
 template_dir = "templaiting"
+databases = ["diesel_postgres_pool"]

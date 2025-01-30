@@ -1,4 +1,5 @@
 #[macro_use] extern crate rocket;
+use autorization::sentinel::*;
 use database::establish_pool;
 pub mod database;
 pub mod schema;
@@ -7,7 +8,6 @@ use rocket::fs::FileServer;
 use routes::product_routes::*;
 use rocket_dyn_templates::Template;
 use routes::home_page::*;
-extern crate rocket_dyn_templates;
 use routes::shopping_cart::cart::*;
 mod autorization;
 
@@ -17,6 +17,6 @@ async fn rocket() -> _ {
     rocket::build()
         .manage(pool)
         .attach(Template::fairing())
-        .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories])
+        .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories,insetable,add_product])
         .mount("/static", FileServer::from("static"))
 }
