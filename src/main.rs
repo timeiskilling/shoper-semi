@@ -5,6 +5,7 @@ pub mod database;
 pub mod schema;
 pub mod routes;
 use rocket::fs::FileServer;
+use routes::catcher::RemoveInterestCohort;
 use routes::product_routes::*;
 use rocket_dyn_templates::Template;
 use routes::home_page::*;
@@ -17,6 +18,7 @@ async fn rocket() -> _ {
     rocket::build()
         .manage(pool)
         .attach(Template::fairing())
+        .attach(RemoveInterestCohort)
         .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories,insetable,add_product])
         .mount("/static", FileServer::from("static"))
 }

@@ -111,23 +111,24 @@ function updateCart() {
 
 updateCart();
 
+// Save cart to localStorage
 function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+// Toggle cart modal display
 function toggleCartModal() {
     const cartModal = document.getElementById('cartModal');
     cartModal.style.display = (cartModal.style.display === 'flex') ? 'none' : 'flex';
 }
 
+// Validate search input
 function validateSearch() {
     const searchInput = document.getElementById('searchInput').value.trim();
-    if (searchInput === '') {
-        return false; 
-    }
-    return true; 
+    return searchInput !== '';
 }
 
+// Dropdown menu functionality
 document.addEventListener('DOMContentLoaded', () => {
     const dropdownButton = document.querySelector('.dropdown-button');
     const dropdownMenu = document.querySelector('.dropdown-menu');
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(categories => {
             const dropdownMenu = document.querySelector('.dropdown-menu');
-            dropdownMenu.innerHTML = ''; 
+            dropdownMenu.innerHTML = '';
 
             function createCategoryList(items) {
                 const ul = document.createElement('ul');
@@ -198,14 +199,138 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownMenu.appendChild(categoryList);
         })
         .catch(error => {
-            console.error('Помилка завантаження категорій:', error);
+            console.error('Error loading categories:', error);
         });
 });
 
-function openProductForm() {
-    document.getElementById("productFormModal").style.display = "block";
+
+const openModalButton = document.getElementById('openModalButton');
+const closeModalButton = document.getElementById('closeModalButton');
+const modal = document.getElementById('addProductModal');
+
+openModalButton.addEventListener('click', () => {
+    modal.classList.add('show');
+    modal.style.display = 'block';
+});
+
+closeModalButton.addEventListener('click', () => {
+    modal.classList.remove('show');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        clearForm();
+    }, 300);
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+        clearForm();
+    }
+});
+
+
+// document.querySelectorAll('.custom-file-input input[type="file"]').forEach(input => {
+//     const fileNameField = input.parentElement.querySelector('.file-name');
+
+//     input.addEventListener('change', () => {
+//         if (input.files.length > 1) {
+//             fileNameField.textContent = `${input.files.length} files selected`;
+//         } else if (input.files.length === 1) {
+//             fileNameField.textContent = input.files[0].name;
+//         } else {
+//             fileNameField.textContent = 'No file selected';
+//         }
+//     });
+// });
+
+
+let selectedMainImage = null;
+let selectedAdditionalImages = [];
+
+function previewImages(input, previewContainerId, isMainImage = false) {
+    const previewContainer = document.getElementById(previewContainerId);
+    previewContainer.innerHTML = '';
+
+    if (input.files && input.files.length > 0) {
+        Array.from(input.files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const imgContainer = document.createElement('div');
+                imgContainer.classList.add('image-container');
+
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+
+                const removeButton = document.createElement('span');
+                removeButton.textContent = '×';
+                removeButton.classList.add('remove-image');
+                removeButton.onclick = () => {
+                    if (isMainImage) {
+                        selectedMainImage = null;
+                        document.getElementById('main_image').value = '';
+                        previewImages(input, previewContainerId, true);
+                    } else {
+                        selectedAdditionalImages.splice(index, 1);
+                        updateAdditionalImagesInput();
+                        previewImages(input, previewContainerId);
+                    }
+                };
+
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(removeButton);
+                previewContainer.appendChild(imgContainer);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 }
 
-function closeProductForm() {
-    document.getElementById("productFormModal").style.display = "none";
+
+document.getElementById('main_image').addEventListener('change', function() {
+    selectedMainImage = this.files[0];
+    previewImages(this, 'mainImagePreview', true);
+});
+
+
+document.getElementById('images').addEventListener('change', function() {
+    selectedAdditionalImages = Array.from(this.files);
+    previewImages(this, 'additionalImagesPreview');
+});
+
+
+function updateAdditionalImagesInput() {
+    const dataTransfer = new DataTransfer();
+    selectedAdditionalImages.forEach(file => {
+        dataTransfer.items.add(file);
+    });
+    document.getElementById('images').files = dataTransfer.files;
+
+ 
+    const fileNameField = document.querySelector('#images').parentElement.querySelector('.file-name');
+    if (selectedAdditionalImages.length > 1) {
+        fileNameField.textContent = `${selectedAdditionalImages.length} files selected`;
+    } else if (selectedAdditionalImages.length === 1) {
+        fileNameField.textContent = selectedAdditionalImages[0].name;
+    } else {
+        fileNameField.textContent = 'No file selected';
+    }
+}
+
+
+function clearForm() {
+    const form = document.querySelector('#addProductModal form');
+    form.reset();
+
+
+    document.getElementById('mainImagePreview').innerHTML = '';
+    document.getElementById('additionalImagesPreview').innerHTML = '';
+
+ 
+    document.querySelectorAll('.file-name').forEach(fileNameField => {
+        fileNameField.textContent = 'No file selected';
+    });
+
+    selectedMainImage = null;
+    selectedAdditionalImages = [];
 }

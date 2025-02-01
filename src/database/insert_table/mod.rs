@@ -1,7 +1,7 @@
 use diesel::{prelude::{Insertable, Queryable}, Selectable};
 use rocket::form::FromForm;
 use diesel::prelude::*;
-#[derive(Queryable, Selectable, serde::Serialize)]
+#[derive(Queryable, Selectable, serde::Serialize,Clone)]
 #[diesel(table_name = crate::schema::products)]
 pub struct Product {
     pub id: i32,
@@ -39,5 +39,12 @@ pub struct Category {
 pub struct ProductImage {
     pub id: i32,
     pub product_id: Option<i32>,
+    pub file_path: String,
+}
+
+#[derive(Insertable)]
+#[diesel(table_name = crate::schema::product_images)]
+pub struct NewProductImage {
+    pub product_id: i32,
     pub file_path: String,
 }
