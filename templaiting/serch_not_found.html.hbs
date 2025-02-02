@@ -9,6 +9,7 @@
 </head>
 <body>
     <header>
+        <button id="openModalButton" class="add-product-button">Add product</button> <!-- Додано кнопку -->
         <h1><a href="/" id="authify-link" style="text-decoration: none; color: inherit;">authify</a></h1>
         <button class="cart-icon" onclick="toggleCartModal()">
             🛒<span id="cartCount">0</span>
@@ -85,6 +86,62 @@
             </div>
         {{/if}}
     </main>
-    <script src="/static/js/home_page.js"></script>
+
+    <!-- Модальне вікно для додавання товару -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">&times;</span>
+            <h2>Add new product</h2>
+            <form action="/add_product" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" autocomplete="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="main_image">Main image:</label>
+                    <div class="custom-file-input">
+                        <input type="file" id="main_image" name="main_image" accept="image/*" required>
+                        <label for="main_image" class="file-button">Select file</label>
+                        <span class="file-name">No file selected</span>
+                    </div>
+                    <div class="image-preview" id="mainImagePreview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="images">Additional image:</label>
+                    <div class="custom-file-input">
+                        <input type="file" id="images" name="images" accept="image/*" multiple>
+                        <label for="images" class="file-button">Select files</label>
+                        <span class="file-name">No files selected</span>
+                    </div>
+                    <div class="image-preview" id="additionalImagesPreview"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="category_id">Category:</label>
+                    <select id="category_id" name="category_id">
+                        {{#each categoriess}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <button type="submit">Add product</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/found.js"></script>
 </body>
 </html>

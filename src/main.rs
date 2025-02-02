@@ -4,6 +4,7 @@ use database::establish_pool;
 pub mod database;
 pub mod schema;
 pub mod routes;
+use database::sorting::{sort_products_by_category, sorted_by, DbConn};
 use rocket::fs::FileServer;
 use routes::catcher::RemoveInterestCohort;
 use routes::product_routes::*;
@@ -19,6 +20,8 @@ async fn rocket() -> _ {
         .manage(pool)
         .attach(Template::fairing())
         .attach(RemoveInterestCohort)
-        .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories,insetable,add_product])
+        .attach(DbConn::fairing())
+        .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories,insetable,add_product
+                            ,sorted_by,sort_products_by_category])
         .mount("/static", FileServer::from("static"))
 }

@@ -25,7 +25,7 @@ function navigate(url) {
     const content = document.getElementById('content');
     content.classList.add('fade-leave-active');
 
-    const dropdownMenu = document.querySelector('.dropdown-menu'); // Додано для закриття меню
+    const dropdownMenu = document.querySelector('.dropdown-menu');
     if (dropdownMenu.style.display === 'block') {
         dropdownMenu.style.display = 'none';
     }
@@ -38,7 +38,6 @@ function navigate(url) {
 document.addEventListener('DOMContentLoaded', () => {
     const content = document.getElementById('content');
     applySorting();
-    content.classList.add('fade-enter-active');
 });
 
 document.getElementById('authify-link').addEventListener('click', function(event) {
@@ -209,18 +208,9 @@ const openModalButton = document.getElementById('openModalButton');
 const closeModalButton = document.getElementById('closeModalButton');
 const modal = document.getElementById('addProductModal');
 
-openModalButton.addEventListener('click', () => {
-    modal.classList.add('show');
-    modal.style.display = 'block';
-});
 
-closeModalButton.addEventListener('click', () => {
-    modal.classList.remove('show');
-    setTimeout(() => {
-        modal.style.display = 'none';
-        clearForm();
-    }, 300);
-});
+
+
 
 window.addEventListener('click', (event) => {
     if (event.target == modal) {
@@ -287,19 +277,6 @@ function previewImages(input, previewContainerId, isMainImage = false) {
     }
 }
 
-
-document.getElementById('main_image').addEventListener('change', function() {
-    selectedMainImage = this.files[0];
-    previewImages(this, 'mainImagePreview', true);
-});
-
-
-document.getElementById('images').addEventListener('change', function() {
-    selectedAdditionalImages = Array.from(this.files);
-    previewImages(this, 'additionalImagesPreview');
-});
-
-
 function updateAdditionalImagesInput() {
     const dataTransfer = new DataTransfer();
     selectedAdditionalImages.forEach(file => {
@@ -341,6 +318,7 @@ function applySorting() {
     const pageType = document.body.dataset.pageType;
     const categoryId = document.body.dataset.categoryId;
 
+ 
 
     let url = '';
 

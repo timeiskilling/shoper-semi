@@ -37,8 +37,7 @@ function navigate(url) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const content = document.getElementById('content');
-    applySorting();
-    content.classList.add('fade-enter-active');
+
 });
 
 document.getElementById('authify-link').addEventListener('click', function(event) {
@@ -336,30 +335,6 @@ function clearForm() {
     selectedAdditionalImages = [];
 }
 
-function applySorting() {
-    const sortOption = document.getElementById('sort').value;
-    const pageType = document.body.dataset.pageType;
-    const categoryId = document.body.dataset.categoryId;
-
-
-    let url = '';
-
-    if (pageType === 'category' && categoryId) {
-        url = `/category/${categoryId}/sort?how_sort=${sortOption}`;
-    } else {
-        url = `/sort?how_sort=${sortOption}`;
-    }
-
-    fetch(url)
-        .then(response => response.json())
-        .then(products => {
-            displayProducts(products);
-        })
-        .catch(error => {
-            console.error('Помилка при отриманні відсортованих товарів:', error);
-        });
-}
-  
 
   function displayProducts(products) {
     const productList = document.querySelector('.product-list');

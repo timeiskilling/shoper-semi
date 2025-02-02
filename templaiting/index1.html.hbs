@@ -54,6 +54,16 @@
           {{/each}}
         </ul>
       </div>
+      <div class="sort-container">
+          <label for="sort">Sort by:</label>
+          <select id="sort" onchange="applySorting()">
+            <option value="">Default</option>
+            <option value="price_asc">Price: low до high</option>
+            <option value="price_desc">Price: high to low</option>
+            <option value="name_asc">Name: A-Z</option>
+            <option value="name_desc">Name: Z-A</option>
+          </select>
+        </div>
     </div>
     <div class="centered-search-container">
       <form method="get" action="/search" onsubmit="return validateSearch()">
@@ -66,6 +76,7 @@
  
   <div id="content">
     <main>
+
       <ul class="product-list">
         {{#each items}}
         <li class="product-item">

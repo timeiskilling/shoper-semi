@@ -29,6 +29,18 @@ diesel::table! {
     }
 }
 
+diesel::table! {
+    users (id) {
+        id -> Int4,
+        #[max_length = 255]
+        username -> Varchar,
+        #[max_length = 300]
+        password_hash -> Varchar,
+        #[max_length = 50]
+        role -> Varchar,
+    }
+}
+
 diesel::joinable!(product_images -> products (product_id));
 diesel::joinable!(products -> categories (category_id));
 
@@ -36,4 +48,5 @@ diesel::allow_tables_to_appear_in_same_query!(
     categories,
     product_images,
     products,
+    users,
 );

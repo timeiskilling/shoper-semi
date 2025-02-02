@@ -717,3 +717,40 @@
     from { opacity: 0; }
     to { opacity: 1; }
   }
+
+
+  /* Створюємо стильний контейнер для сортування */
+.sort-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Стилізуємо підпис */
+  .sort-container label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffffff;
+  }
+  
+  .sort-container select {
+    padding: 10px 40px 10px 15px;
+    font-size: 16px;
+    border: 2px solid #1ed760;;
+    border-radius: 25px;
+    background-color: #1ed760;
+   background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 24px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  
+  .sort-container select::-ms-expand {
+    display: none;
+  }
+  

@@ -4,6 +4,7 @@ use diesel::r2d2::{ConnectionManager, Pool};
 use dotenv::dotenv;
 use diesel::PgConnection;
 use std::env;
+pub mod sorting;
 
 pub(crate) type DbPool = Pool<ConnectionManager<PgConnection>>;
 

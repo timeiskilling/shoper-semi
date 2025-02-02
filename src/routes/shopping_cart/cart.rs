@@ -59,7 +59,8 @@ pub async fn category(pool: &State<DbPool>, ids: i32) -> Template {
         Ok(product_list) => {
             let context = json!({
                 "category_name": category_name,
-                "items": product_list
+                "items": product_list,
+                "category_id": ids
             });
             Template::render("categories", &context)
         },

@@ -341,6 +341,7 @@ function applySorting() {
     const pageType = document.body.dataset.pageType;
     const categoryId = document.body.dataset.categoryId;
 
+ 
 
     let url = '';
 

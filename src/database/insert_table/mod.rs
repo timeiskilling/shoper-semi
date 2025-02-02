@@ -48,3 +48,12 @@ pub struct NewProductImage {
     pub product_id: i32,
     pub file_path: String,
 }
+
+#[derive(Queryable, Identifiable,Debug,serde::Serialize,Clone)]
+#[diesel(table_name = crate::schema::users)]
+struct UserEx {
+    pub id : i32,
+    pub username : String,
+    pub password_hash : String,
+    pub role : String,
+}
