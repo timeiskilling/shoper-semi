@@ -57,3 +57,12 @@ struct UserEx {
     pub password_hash : String,
     pub role : String,
 }
+
+
+#[derive(Insertable, serde::Serialize, serde::Deserialize)]
+#[diesel(table_name = crate::schema::users)]
+pub struct NewUser<'a> {
+    pub username: &'a str,
+    pub password_hash: &'a str,
+    pub role: &'a str,
+}

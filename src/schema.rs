@@ -30,6 +30,19 @@ diesel::table! {
 }
 
 diesel::table! {
+    tokens (id) {
+        id -> Int4,
+        #[max_length = 255]
+        token -> Varchar,
+        user_id -> Int4,
+        #[max_length = 50]
+        token_type -> Varchar,
+        issued_at -> Timestamp,
+        expires_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     users (id) {
         id -> Int4,
         #[max_length = 255]
@@ -43,10 +56,12 @@ diesel::table! {
 
 diesel::joinable!(product_images -> products (product_id));
 diesel::joinable!(products -> categories (category_id));
+diesel::joinable!(tokens -> users (user_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     categories,
     product_images,
     products,
+    tokens,
     users,
 );
