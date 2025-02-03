@@ -6,9 +6,8 @@ use rocket::serde::json::json;
 use rocket::State;
 use rocket_dyn_templates::Template;
 use crate::database::DbPool;
-
-use rocket::serde::json::Json;
 use crate::schema::categories::dsl::*;
+use rocket::serde::json::Json;
 
 fn get_all_subcategories(conn: &mut PgConnection, category_id: i32) -> Vec<i32> {
     let mut all_ids = vec![category_id];

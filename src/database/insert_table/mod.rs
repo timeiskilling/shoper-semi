@@ -51,7 +51,7 @@ pub struct NewProductImage {
 
 #[derive(Queryable, Identifiable,Debug,serde::Serialize,Clone)]
 #[diesel(table_name = crate::schema::users)]
-struct UserEx {
+pub struct UserEx {
     pub id : i32,
     pub username : String,
     pub password_hash : String,
@@ -61,8 +61,8 @@ struct UserEx {
 
 #[derive(Insertable, serde::Serialize, serde::Deserialize)]
 #[diesel(table_name = crate::schema::users)]
-pub struct NewUser<'a> {
-    pub username: &'a str,
-    pub password_hash: &'a str,
-    pub role: &'a str,
+pub struct NewUser {
+    pub username: String,
+    pub password_hash: String,
+    pub role: String,
 }
