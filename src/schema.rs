@@ -43,7 +43,7 @@ diesel::table! {
 }
 
 diesel::table! {
-    users (id) {
+    users (id) {    
         id -> Int4,
         #[max_length = 255]
         username -> Varchar,

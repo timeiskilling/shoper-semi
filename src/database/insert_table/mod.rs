@@ -66,3 +66,12 @@ pub struct NewUser {
     pub password_hash: String,
     pub role: String,
 }
+
+
+#[derive(Insertable, serde::Serialize, serde::Deserialize)]
+#[diesel(table_name = crate::schema::tokens)]
+pub struct NewToken<'r> {
+    pub token : &'r str,
+    pub user_id : i32,
+    pub token_type : &'r str,
+}

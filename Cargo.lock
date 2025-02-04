@@ -671,6 +671,7 @@ name = "git_shop"
 version = "0.1.0"
 dependencies = [
  "argon2",
+ "base64 0.22.1",
  "chrono",
  "diesel",
  "dotenv",
