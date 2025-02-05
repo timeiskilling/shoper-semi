@@ -1,4 +1,5 @@
 pub mod sentinel;
 pub mod user;
 pub mod token;
-pub mod registration;
+pub mod routes_user;
+pub mod log;

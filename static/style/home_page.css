@@ -753,4 +753,29 @@
     display: none;
   }
   
+  .user-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-icon i {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  
+  #loginButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
   

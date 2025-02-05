@@ -14,7 +14,7 @@ pub enum RegistrationOutcome {
     Other,
 }
 
-async fn user_creating(db : DbConn, login : &str, password : &str) -> RegistrationOutcome {
+pub async fn user_creating(db : &DbConn, login : &str, password : &str) -> RegistrationOutcome {
     if password.len() < 8 {
         return RegistrationOutcome::WeakPassword;
     }

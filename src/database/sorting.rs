@@ -7,7 +7,6 @@ use rocket_sync_db_pools::database;
 
 use super::insert_table::Product;
 
-
 #[database("pg_db")]
 pub struct DbConn(diesel::PgConnection);
 
