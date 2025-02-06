@@ -147,220 +147,229 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Load categories dynamically
     fetch('/api/categories')
-        .then(response => response.json())
-        .then(categories => {
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-            dropdownMenu.innerHTML = '';
-
-            function createCategoryList(items) {
-                const ul = document.createElement('ul');
-                ul.className = 'subcategory-menu';
-
-                items.forEach(item => {
-                    const li = document.createElement('li');
-                    li.className = 'dropdown-item';
-
-                    const link = document.createElement('a');
-                    link.href = `/category/${item.id}`;
-                    link.textContent = item.name;
-                    li.appendChild(link);
-
-                    if (item.subcategories && item.subcategories.length > 0) {
-                        li.appendChild(createCategoryList(item.subcategories));
-                    }
-
-                    ul.appendChild(li);
-                });
-
-                return ul;
+      .then(response => response.json())
+      .then(categories => {
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        dropdownMenu.innerHTML = '';
+  
+        function createCategoryList(items) {
+          const ul = document.createElement('ul');
+          ul.className = 'subcategory-menu';
+  
+          items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'dropdown-item';
+  
+            const link = document.createElement('a');
+            link.href = `/category/${item.id}`;
+            link.textContent = item.name;
+            li.appendChild(link);
+  
+            if (item.subcategories && item.subcategories.length > 0) {
+              li.appendChild(createCategoryList(item.subcategories));
             }
-
-            function nestCategories(categories) {
-                const map = {};
-                const roots = [];
-
-                categories.forEach(category => {
-                    map[category.id] = { ...category, subcategories: [] };
-                });
-
-                categories.forEach(category => {
-                    if (category.parent_id) {
-                        map[category.parent_id].subcategories.push(map[category.id]);
-                    } else {
-                        roots.push(map[category.id]);
-                    }
-                });
-
-                return roots;
+  
+            ul.appendChild(li);
+          });
+  
+          return ul;
+        }
+  
+        function nestCategories(categories) {
+          const map = {};
+          const roots = [];
+  
+          categories.forEach(category => {
+            map[category.id] = { ...category, subcategories: [] };
+          });
+  
+          categories.forEach(category => {
+            if (category.parent_id) {
+              map[category.parent_id].subcategories.push(map[category.id]);
+            } else {
+              roots.push(map[category.id]);
             }
-
-            const nestedCategories = nestCategories(categories);
-            const categoryList = createCategoryList(nestedCategories);
-            dropdownMenu.appendChild(categoryList);
-        })
-        .catch(error => {
-            console.error('Error loading categories:', error);
-        });
-});
-
-
-const openModalButton = document.getElementById('openModalButton');
-const closeModalButton = document.getElementById('closeModalButton');
-const modal = document.getElementById('addProductModal');
-
-openModalButton.addEventListener('click', () => {
+          });
+  
+          return roots;
+        }
+  
+        const nestedCategories = nestCategories(categories);
+        const categoryList = createCategoryList(nestedCategories);
+        dropdownMenu.appendChild(categoryList);
+      })
+      .catch(error => {
+        console.error('Error loading categories:', error);
+      });
+  });
+  
+  // Modal variables
+  const addProductModal = document.getElementById('addProductModal');
+  const loginModal = document.getElementById('loginModal');
+  const registerModal = document.getElementById('registerModal');
+  
+  const openModalButton = document.getElementById('openModalButton');
+  const closeModalButton = document.getElementById('closeModalButton');
+  
+  const loginButton = document.getElementById('loginButton');
+  const closeLoginModalButton = document.getElementById('closeLoginModalButton');
+  
+  const registerLink = document.getElementById('registerLink');
+  const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
+  
+  // Відкриття/закриття модальних вікон
+  openModalButton.addEventListener('click', () => openModal(addProductModal));
+  closeModalButton.addEventListener('click', () => closeModal(addProductModal));
+  
+  loginButton.addEventListener('click', () => openModal(loginModal));
+  closeLoginModalButton.addEventListener('click', () => closeModal(loginModal));
+  
+  function openModal(modal) {
     modal.classList.add('show');
     modal.style.display = 'block';
-});
-
-closeModalButton.addEventListener('click', () => {
+}
+function closeModal(modal) {
     modal.classList.remove('show');
     setTimeout(() => {
         modal.style.display = 'none';
-        clearForm();
     }, 300);
+    clearForm();
+}
+  
+  loginButton.addEventListener('click', () => {
+    loginModal.style.display = 'block';
+  });
+  
+  closeLoginModalButton.addEventListener('click', () => {
+    loginModal.style.display = 'none';
+  });
+  
+  registerLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeModal(loginModal);
+    openModal(registerModal);
 });
-
-window.addEventListener('click', (event) => {
-    if (event.target == modal) {
-        modal.style.display = 'none';
-        clearForm();
+  
+closeRegisterModalButton.addEventListener('click', () => closeModal(registerModal));
+  
+  // Close modals when clicking outside of them
+  window.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal')) {
+        closeModal(event.target);
     }
 });
-
-
-// document.querySelectorAll('.custom-file-input input[type="file"]').forEach(input => {
-//     const fileNameField = input.parentElement.querySelector('.file-name');
-
-//     input.addEventListener('change', () => {
-//         if (input.files.length > 1) {
-//             fileNameField.textContent = `${input.files.length} files selected`;
-//         } else if (input.files.length === 1) {
-//             fileNameField.textContent = input.files[0].name;
-//         } else {
-//             fileNameField.textContent = 'No file selected';
-//         }
-//     });
-// });
-
-
-let selectedMainImage = null;
-let selectedAdditionalImages = [];
-
-function previewImages(input, previewContainerId, isMainImage = false) {
+  
+  // Image preview functionalities (same as your provided code)
+  
+  let selectedMainImage = null;
+  let selectedAdditionalImages = [];
+  
+  function previewImages(input, previewContainerId, isMainImage = false) {
     const previewContainer = document.getElementById(previewContainerId);
     previewContainer.innerHTML = '';
-
+  
     if (input.files && input.files.length > 0) {
-        Array.from(input.files).forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const imgContainer = document.createElement('div');
-                imgContainer.classList.add('image-container');
-
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.alt = file.name;
-
-                const removeButton = document.createElement('span');
-                removeButton.textContent = '×';
-                removeButton.classList.add('remove-image');
-                removeButton.onclick = () => {
-                    if (isMainImage) {
-                        selectedMainImage = null;
-                        document.getElementById('main_image').value = '';
-                        previewImages(input, previewContainerId, true);
-                    } else {
-                        selectedAdditionalImages.splice(index, 1);
-                        updateAdditionalImagesInput();
-                        previewImages(input, previewContainerId);
-                    }
-                };
-
-                imgContainer.appendChild(img);
-                imgContainer.appendChild(removeButton);
-                previewContainer.appendChild(imgContainer);
-            };
-            reader.readAsDataURL(file);
-        });
+      Array.from(input.files).forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const imgContainer = document.createElement('div');
+          imgContainer.classList.add('image-container');
+  
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = file.name;
+  
+          const removeButton = document.createElement('span');
+          removeButton.textContent = '×';
+          removeButton.classList.add('remove-image');
+          removeButton.onclick = () => {
+            if (isMainImage) {
+              selectedMainImage = null;
+              document.getElementById('main_image').value = '';
+              previewImages(input, previewContainerId, true);
+            } else {
+              selectedAdditionalImages.splice(index, 1);
+              updateAdditionalImagesInput();
+              previewImages(input, previewContainerId);
+            }
+          };
+  
+          imgContainer.appendChild(img);
+          imgContainer.appendChild(removeButton);
+          previewContainer.appendChild(imgContainer);
+        };
+        reader.readAsDataURL(file);
+      });
     }
-}
-
-
-document.getElementById('main_image').addEventListener('change', function() {
+  }
+  
+  document.getElementById('main_image').addEventListener('change', function() {
     selectedMainImage = this.files[0];
     previewImages(this, 'mainImagePreview', true);
-});
-
-
-document.getElementById('images').addEventListener('change', function() {
+  });
+  
+  document.getElementById('images').addEventListener('change', function() {
     selectedAdditionalImages = Array.from(this.files);
     previewImages(this, 'additionalImagesPreview');
-});
-
-
-function updateAdditionalImagesInput() {
+  });
+  
+  function updateAdditionalImagesInput() {
     const dataTransfer = new DataTransfer();
     selectedAdditionalImages.forEach(file => {
-        dataTransfer.items.add(file);
+      dataTransfer.items.add(file);
     });
     document.getElementById('images').files = dataTransfer.files;
-
- 
+  
     const fileNameField = document.querySelector('#images').parentElement.querySelector('.file-name');
     if (selectedAdditionalImages.length > 1) {
-        fileNameField.textContent = `${selectedAdditionalImages.length} files selected`;
+      fileNameField.textContent = `${selectedAdditionalImages.length} files selected`;
     } else if (selectedAdditionalImages.length === 1) {
-        fileNameField.textContent = selectedAdditionalImages[0].name;
+      fileNameField.textContent = selectedAdditionalImages[0].name;
     } else {
-        fileNameField.textContent = 'No file selected';
+      fileNameField.textContent = 'No file selected';
     }
-}
-
-
-function clearForm() {
+  }
+  
+  function clearForm() {
     const form = document.querySelector('#addProductModal form');
     form.reset();
-
-
+  
     document.getElementById('mainImagePreview').innerHTML = '';
     document.getElementById('additionalImagesPreview').innerHTML = '';
-
- 
+  
     document.querySelectorAll('.file-name').forEach(fileNameField => {
-        fileNameField.textContent = 'No file selected';
+      fileNameField.textContent = 'No file selected';
     });
-
+  
     selectedMainImage = null;
     selectedAdditionalImages = [];
-}
-
-function applySorting() {
+  }
+  
+  function applySorting() {
     const sortOption = document.getElementById('sort').value;
     const pageType = document.body.dataset.pageType;
     const categoryId = document.body.dataset.categoryId;
-
-
-    let url = '';
-
-    if (pageType === 'category' && categoryId) {
-        url = `/category/${categoryId}/sort?how_sort=${sortOption}`;
-    } else {
-        url = `/sort?how_sort=${sortOption}`;
-    }
-
-    fetch(url)
-        .then(response => response.json())
-        .then(products => {
-            displayProducts(products);
-        })
-        .catch(error => {
-            console.error('Помилка при отриманні відсортованих товарів:', error);
-        });
-}
   
-
+    let url = '';
+  
+    if (pageType === 'category' && categoryId) {
+      url = `/category/${categoryId}/sort?how_sort=${sortOption}`;
+    } else {
+      url = `/sort?how_sort=${sortOption}`;
+    }
+  
+    fetch(url)
+      .then(response => response.json())
+      .then(products => {
+        displayProducts(products);
+      })
+      .catch(error => {
+        console.error('Помилка при отриманні відсортованих товарів:', error);
+      });
+  }
+  
   function displayProducts(products) {
     const productList = document.querySelector('.product-list');
     productList.innerHTML = '';
@@ -385,3 +394,4 @@ function applySorting() {
       productList.appendChild(productItem);
     });
   }
+  

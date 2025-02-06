@@ -7,12 +7,52 @@
   <link rel="stylesheet" href="/static/style/home_page.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
+<body data-page-type="{{pageType}}" data-category-id="{{categoryId}}">
   <header>
     <div class="user-icon">
       <i class="fas fa-user"></i>
-      <button id="loginButton" onclick="window.location.href='/login'">Login</button>
+      <button id="loginButton">Login</button>
     </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closeLoginModalButton">&times;</span>
+        <h2>Авторизація</h2>
+        <form id="loginForm" method="post" action="/login">
+          <div class="form-group">
+            <label for="username">Ім'я користувача:</label>
+            <input type="text" id="username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+          <button type="submit">Увійти</button>
+        </form>
+        <p>Ще не зареєстровані? <a href="#" id="registerLink">Зареєструватися</a></p>
+      </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closeRegisterModalButton">&times;</span>
+        <h2>Реєстрація</h2>
+        <form id="registerForm" method="post" action="/register">
+          <div class="form-group">
+            <label for="reg_username">Ім'я користувача:</label>
+            <input type="text" id="reg_username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_password">Пароль:</label>
+            <input type="password" id="reg_password" name="password" required>
+          </div>
+          <button type="submit">Зареєструватися</button>
+        </form>
+      </div>
+    </div>
+
     <button id="openModalButton" class="add-product-button">Add product</button>
     <h1>
       <a href="/" id="authify-link" style="text-decoration: none; color: inherit;">authify</a>
@@ -41,33 +81,25 @@
       </div>
     </div>
   </header>
+
   <nav class="nav-container">
     <div class="nav-buttons">
       <div class="dropdown">
         <button class="nav-button dropdown-button">All</button>
         <ul class="dropdown-menu">
-          {{#each categories}}
-          <li class="dropdown-item">
-            <a href="/category/{{id}}">{{name}}</a>
-            <ul class="subcategory-menu">
-              {{#each subcategories}}
-              <li><a href="/category/{{../id}}/subcategory/{{id}}">{{name}}</a></li>
-              {{/each}}
-            </ul>
-          </li>
-          {{/each}}
+          <!-- Categories will be dynamically loaded -->
         </ul>
       </div>
       <div class="sort-container">
-          <label for="sort">Sort by:</label>
-          <select id="sort" onchange="applySorting()">
-            <option value="">Default</option>
-            <option value="price_asc">Price: low до high</option>
-            <option value="price_desc">Price: high to low</option>
-            <option value="name_asc">Name: A-Z</option>
-            <option value="name_desc">Name: Z-A</option>
-          </select>
-        </div>
+        <label for="sort">Sort by:</label>
+        <select id="sort" onchange="applySorting()">
+          <option value="">Default</option>
+          <option value="price_asc">Price: low до high</option>
+          <option value="price_desc">Price: high to low</option>
+          <option value="name_asc">Name: A-Z</option>
+          <option value="name_desc">Name: Z-A</option>
+        </select>
+      </div>
     </div>
     <div class="centered-search-container">
       <form method="get" action="/search" onsubmit="return validateSearch()">
@@ -77,10 +109,8 @@
     </div>
   </nav>
 
- 
   <div id="content">
     <main>
-
       <ul class="product-list">
         {{#each items}}
         <li class="product-item">
@@ -97,6 +127,8 @@
         </li>
         {{/each}}
       </ul>
+
+      <!-- Add Product Modal -->
       <div id="addProductModal" class="modal">
         <div class="modal-content">
           <span class="close-button" id="closeModalButton">&times;</span>
@@ -152,7 +184,6 @@
       </div>
     </main>
   </div>
-
   <script src="/static/js/home_page.js"></script>
 </body>
 </html>

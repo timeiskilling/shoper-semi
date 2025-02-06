@@ -5,11 +5,11 @@ pub trait RoutesCombination {
 }
 
 
-impl RoutesCombination for Rocket {
-    fn manege_routes(&self) -> Self {
-        self.mount("/", routes![
+// impl RoutesCombination for Rocket {
+//     fn manege_routes(&self) -> Self {
+//         self.mount("/", routes![
             
-        ]
-    )
-    }
-}
+//         ]
+//     )
+//     }
+// }

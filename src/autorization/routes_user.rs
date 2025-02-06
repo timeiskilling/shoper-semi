@@ -10,7 +10,7 @@ struct RegistrationForm {
 }
 
 #[post("/register", data = "<form>")]
-async fn register(db: DbConn, form: Form<RegistrationForm>) -> Status {
+pub async fn register(db: DbConn, form: Form<RegistrationForm>) -> Status {
     match user_creating(&db, &form.username, &form.password).await {
         RegistrationOutcome::Ok => Status::Ok,
         RegistrationOutcome::AlreadyInUse => Status::Conflict,
@@ -28,7 +28,7 @@ struct LoginForm {
 }
 
 #[post("/login", data = "<form>")]
-async fn login(db: DbConn, form: Form<LoginForm>) -> Result<String, Status> {
+pub async fn login(db: DbConn, form: Form<LoginForm>) -> Result<String, Status> {
     match chek_pass(&db, form.username.clone(), form.password.clone()).await {
         GetUserOutcome::Some(user) => {
             match create_for_user(&db, &user).await {
