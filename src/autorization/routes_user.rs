@@ -27,16 +27,33 @@ struct LoginForm {
     password: String,
 }
 
+use rocket::response::Redirect;
+use rocket_dyn_templates::Template;
+use std::collections::HashMap;
+
 #[post("/login", data = "<form>")]
-pub async fn login(db: DbConn, form: Form<LoginForm>) -> Result<String, Status> {
+pub async fn login(db: DbConn, form: Form<LoginForm>) -> Result<Template, Status> {
     match chek_pass(&db, form.username.clone(), form.password.clone()).await {
         GetUserOutcome::Some(user) => {
-            match create_for_user(&db, &user).await {
-                TokenCreating::Ok(token) => Ok(token),
-                TokenCreating::Err => Err(Status::InternalServerError),
-            }
+            // За бажанням, ви можете зберегти токен у сесії або печиві
+            // match create_for_user(&db, &user).await {
+            //     TokenCreating::Ok(token) => {
+                    // Наприклад, зберегти токен або іншу інформацію
+            //     }
+            //     TokenCreating::Err => return Err(Status::InternalServerError),
+            // }
+
+            // Підготуємо дані для шаблону
+            let mut context = HashMap::new();
+            context.insert("username", user.username.clone());
+            context.insert("role", user.role.clone());
+            // Додайте інші необхідні поля з `user`
+
+            // Повертаємо шаблон з контекстом
+            Ok(Template::render("user_profile", &context))
         }
         GetUserOutcome::None => Err(Status::Unauthorized),
         GetUserOutcome::Error => Err(Status::InternalServerError),
     }
 }
+

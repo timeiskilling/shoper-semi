@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Профіль користувача {{username}}</title>
+    <p>Ваша роль: {{role}}</p>
+    <link rel="stylesheet" href="/static/css/home_page.css">
+</head>
+<body>
+    <header>
+        <h1>Ласкаво просимо, {{username}}!</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">Головна</a></li>
+            <li><a href="/profile">Профіль</a></li>
+            <li><a href="/settings">Налаштування</a></li>
+            <li><a href="/logout">Вихід</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="user-info">
+            <h2>Інформація про вас</h2>
+            <p><strong>Ім'я:</strong> {{username}} {{lastName}}</p>
+            <p><strong>Електронна пошта:</strong> {{email}}</p>
+        </section>
+
+        <section class="user-activity">
+            <h2>Остання активність</h2>
+            {{#if recentActivities}}
+                <ul>
+                    {{#each recentActivities}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            {{else}}
+                <p>Ви ще не маєте жодної активності.</p>
+            {{/if}}
+        </section>
+
+        <section class="user-actions">
+            <h2>Дії</h2>
+            <button onclick="location.href='/edit-profile'">Редагувати профіль</button>
+            <button onclick="location.href='/change-password'">Змінити пароль</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 ВашСайт. Усі права захищено.</p>
+    </footer>
+</body>
+</html>

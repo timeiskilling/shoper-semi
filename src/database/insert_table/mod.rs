@@ -68,10 +68,12 @@ pub struct NewUser {
 }
 
 
-#[derive(Insertable, serde::Serialize, serde::Deserialize)]
+#[derive(Insertable)]
 #[diesel(table_name = crate::schema::tokens)]
 pub struct NewToken<'r> {
     pub token : &'r str,
     pub user_id : i32,
     pub token_type : &'r str,
+    pub issued_at: chrono::NaiveDateTime,
+    pub expires_at : chrono::NaiveDateTime,
 }

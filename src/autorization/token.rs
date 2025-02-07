@@ -22,10 +22,16 @@ pub async  fn create_for_user(db : &DbConn, user : &UserEx) -> TokenCreating {
 
     let result = db.run(move |conn| {
         let token_str = general_purpose::STANDARD.encode(token_bytes); 
+
+        let now = chrono::Utc::now().naive_utc();
+        let expires = now + chrono::Duration::days(30); 
+
         let new_token = NewToken {
             token: &token_str,
             user_id: user_ids,
             token_type: "user_acces",
+            issued_at: now,
+            expires_at: expires,
         };
 
         diesel::insert_into(tokens::table)
