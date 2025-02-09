@@ -229,6 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function openModal(modal) {
     modal.classList.add('show');
     modal.style.display = 'block';
+    history.replaceState(null, '', location.pathname);
 }
 function closeModal(modal) {
     modal.classList.remove('show');
@@ -254,7 +255,6 @@ function closeModal(modal) {
   
 closeRegisterModalButton.addEventListener('click', () => closeModal(registerModal));
   
-  // Close modals when clicking outside of them
   window.addEventListener('click', (event) => {
     if (event.target.classList.contains('modal')) {
         closeModal(event.target);
@@ -393,5 +393,113 @@ closeRegisterModalButton.addEventListener('click', () => closeModal(registerModa
   
       productList.appendChild(productItem);
     });
+}
+function onLoginSuccess() {
+    closeModal(loginModal);
+    // Очищаємо історію, щоб не можна було повернутися назад
+    history.pushState(null, '', '/profile '); // або інша потрібна сторінка
+}
+
+
+
+// // Check if the page is loaded from bfcache
+// if (performance.getEntriesByType('navigation')[0].type === 'back_forward') {
+//   document.body.classList.add('hidden');
+// }
+
+// window.addEventListener('pageshow', function(event) {
+//   if (event.persisted || performance.getEntriesByType('navigation')[0].type === 'back_forward') {
+//     // Reload the page to get fresh content
+//     window.location.reload();
+//   } else {
+//     // Remove the hidden class to display content
+//     document.body.classList.remove('hidden');
+//   }
+// });
+
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted || (performance && performance.navigation.type === 2)) {
+    // Reset all forms on the page
+    document.querySelectorAll('form').forEach(function(form) {
+      form.reset();
+    });
+
+    // Clear any custom form data or previews
+    clearCustomFormData();
   }
+});
+
+
+// Existing code in /static/js/home_page.js
+
+// Function to close the Add Product Modal
+function closeAddProductModal() {
+  const modal = document.getElementById('addProductModal');
+  modal.style.display = 'none';
   
+  // Reset the form inside the modal
+  const form = modal.querySelector('form');
+  if (form) form.reset();
+
+  // Clear custom data and previews
+  clearCustomFormData();
+}
+
+// Function to close the Login Modal
+function closeLoginModal() {
+  const modal = document.getElementById('loginModal');
+  modal.style.display = 'none';
+  
+  // Reset the form
+  const form = modal.querySelector('form');
+  if (form) form.reset();
+}
+
+// Function to close the Registration Modal
+function closeRegisterModal() {
+  const modal = document.getElementById('registerModal');
+  modal.style.display = 'none';
+  
+  // Reset the form
+  const form = modal.querySelector('form');
+  if (form) form.reset();
+}
+
+// Adjust your event listeners accordingly
+document.getElementById('closeModalButton').addEventListener('click', closeAddProductModal);
+document.getElementById('closeLoginModalButton').addEventListener('click', closeLoginModal);
+document.getElementById('closeRegisterModalButton').addEventListener('click', closeRegisterModal);
+
+function clearCustomFormData() {
+  // Reset variables related to the Add Product form
+  selectedMainImage = null;
+  selectedAdditionalImages = [];
+
+  // Clear image previews
+  const mainImagePreview = document.getElementById('mainImagePreview');
+  if (mainImagePreview) mainImagePreview.innerHTML = '';
+
+  const additionalImagesPreview = document.getElementById('additionalImagesPreview');
+  if (additionalImagesPreview) additionalImagesPreview.innerHTML = '';
+
+  // Reset displayed file names
+  document.querySelectorAll('.file-name').forEach(function(fileNameField) {
+    fileNameField.textContent = 'No file selected';
+  });
+}
+
+document.documentElement.classList.add('hidden');
+
+  window.addEventListener('pageshow', function(event) {
+    // Remove the 'hidden' class after forms are reset
+    document.documentElement.classList.remove('hidden');
+
+    if (event.persisted || (performance && performance.navigation.type === 2)) {
+      // Reset forms and clear data
+      document.querySelectorAll('form').forEach(function(form) {
+        form.reset();
+      });
+
+      clearCustomFormData();
+    }
+  });

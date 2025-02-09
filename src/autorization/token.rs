@@ -50,7 +50,7 @@ pub async  fn create_for_user(db : &DbConn, user : &UserEx) -> TokenCreating {
 }
 
 
-pub async fn check_token(db : DbConn , token : String) -> GetUserOutcome {
+pub async fn check_token(db : &DbConn , token : String) -> GetUserOutcome {
     db.run(move |conn| {
         match users::table
             .left_join(tokens::table.on(tokens::user_id.eq(users::id)))

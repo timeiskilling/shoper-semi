@@ -778,4 +778,6 @@
     cursor: pointer;
     border-radius: 5px;
   }
-  
+  body.hidden {
+    display: none;
+  }

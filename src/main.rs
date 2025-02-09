@@ -19,10 +19,11 @@ async fn rocket() -> _ {
     let pool = establish_pool().await;
     rocket::build()
         .manage(pool)
+        .attach(NoCacheFairing)
         .attach(Template::fairing())
         .attach(RemoveInterestCohort)
         .attach(DbConn::fairing())
         .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories,insetable,add_product
-                            ,sorted_by,sort_products_by_category,login,register])
+                            ,sorted_by,sort_products_by_category,login,register,profile])
         .mount("/static", FileServer::from("static"))
 }
