@@ -73,8 +73,8 @@ pub async fn profile(user: UserGuard) -> Template {
     context.insert("user_id", user.id);
 
     let template_name = match user.role.as_str() {
-        "admin" => "admin_profile",
-        "user" => "user_profile",
+        "admin" => "admin",
+        "user" => "user_profile",   
         _ => "access_denied",
     };
 

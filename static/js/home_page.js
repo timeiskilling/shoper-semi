@@ -219,10 +219,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const registerLink = document.getElementById('registerLink');
   const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
   
+  document.getElementById('openModalButton').addEventListener('click', function() {
+    document.getElementById('addProductModal').style.display = 'block';
+  });
+
+  
   // Відкриття/закриття модальних вікон
   openModalButton.addEventListener('click', () => openModal(addProductModal));
   closeModalButton.addEventListener('click', () => closeModal(addProductModal));
   
+  document.getElementById('closeModalButton').addEventListener('click', function() {
+    document.getElementById('addProductModal').style.display = 'none';
+  });
   loginButton.addEventListener('click', () => openModal(loginModal));
   closeLoginModalButton.addEventListener('click', () => closeModal(loginModal));
   

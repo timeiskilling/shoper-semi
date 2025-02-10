@@ -18,7 +18,7 @@ use autorization::routes_user::*;
 async fn rocket() -> _ {
     let pool = establish_pool().await;
     rocket::build()
-        .manage(pool)
+        .manage(pool)   
         .attach(NoCacheFairing)
         .attach(Template::fairing())
         .attach(RemoveInterestCohort)

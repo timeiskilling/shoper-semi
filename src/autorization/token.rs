@@ -14,39 +14,38 @@ pub enum GetUserOutcome {
     Error,
 }
 
-pub async  fn create_for_user(db : &DbConn, user : &UserEx) -> TokenCreating {
-    let mut token_bytes = [0u8, 32];
-    rand_core::OsRng.fill_bytes(&mut token_bytes);
-    let token_entry = general_purpose::STANDARD.encode(token_bytes);
-    let user_ids = user.id.clone();
 
-    let result = db.run(move |conn| {
-        let token_str = general_purpose::STANDARD.encode(token_bytes); 
+
+pub async fn create_for_user(db: &DbConn, user: &UserEx) -> TokenCreating {
+    let user_id = user.id;
+
+    db.run(move |conn| {
+        diesel::delete(tokens::table.filter(tokens::user_id.eq(user_id)))
+            .execute(conn)
+            .expect("Error deleting old tokens");
+
+        let mut token_bytes = [0u8; 32];
+        rand_core::OsRng.fill_bytes(&mut token_bytes);
+        let token_str = general_purpose::STANDARD.encode(token_bytes);
 
         let now = chrono::Utc::now().naive_utc();
-        let expires = now + chrono::Duration::days(30); 
+        let expires = now + chrono::Duration::days(30);
 
         let new_token = NewToken {
             token: &token_str,
-            user_id: user_ids,
-            token_type: "user_acces",
+            user_id,
+            token_type: "user_access",
             issued_at: now,
             expires_at: expires,
         };
 
         diesel::insert_into(tokens::table)
-        .values(new_token)
-        .execute(conn)
-    }).await;
-
-    match result {
-        Ok(_) => TokenCreating::Ok(token_entry),
-        Err(e) => { 
-            eprintln!("Error inserting token {}",e);
-            TokenCreating::Err
-        }
-    }
-
+            .values(new_token)
+            .execute(conn)
+            .map(|_| TokenCreating::Ok(token_str))
+            .unwrap_or(TokenCreating::Err)
+    })
+    .await
 }
 
 

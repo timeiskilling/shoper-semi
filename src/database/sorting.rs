@@ -12,7 +12,7 @@ pub struct DbConn(diesel::PgConnection);
 
 
 #[get("/sort?<how_sort>")]
-pub async fn sorted_by(conn: DbConn, how_sort: Option<String>) -> Json<Vec<Product>> {
+pub async fn sorted_by(conn:    DbConn, how_sort: Option<String>) -> Json<Vec<Product>> {
     let result = conn.run(move |c| {
         use crate::schema::products::dsl::*;
 

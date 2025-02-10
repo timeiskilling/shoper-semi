@@ -46,9 +46,6 @@ pub async fn admin_creating(db : &DbConn,) -> RegistrationOutcome {
 }
 
 
-fn main()  {
-
-}
 
 pub async fn user_creating(db : &DbConn, login : &str, password : &str) -> RegistrationOutcome {
     if password.len() < 8 {
