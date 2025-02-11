@@ -1,8 +1,11 @@
+use diesel::RunQueryDsl;
 use rocket::request::Outcome;
 use rocket::Request;
 use rocket::{form::Form, request::FromRequest};
 use rocket::http::Status;
+use crate::database::insert_table::Category;
 use crate::database::{insert_table::UserEx, sorting::DbConn};
+use crate::schema::categories;
 use super::request_guard::guard_user::{AdminGuard, UserGuard};
 use super::token::check_token;
 use super::{log::chek_pass, token::{create_for_user, GetUserOutcome, TokenCreating}, user::{user_creating, RegistrationOutcome}};
@@ -52,6 +55,7 @@ pub async fn login(db: DbConn, cookies: &CookieJar<'_>, form: Form<LoginForm>) -
         GetUserOutcome::Some(user) => {
             cookies.add_private(Cookie::new("user_role", user.role.clone()));
             cookies.add_private(Cookie::new("user_id", user.id.to_string()));
+            cookies.add_private(Cookie::new("username", user.username.to_string()));
             match create_for_user(&db, &user).await {
                 TokenCreating::Ok(token) => {
                     cookies.add_private(("auth_token", token));
@@ -68,15 +72,22 @@ pub async fn login(db: DbConn, cookies: &CookieJar<'_>, form: Form<LoginForm>) -
 
 
 #[get("/profile")]
-pub async fn profile(user: UserGuard) -> Template {
+pub async fn profile(user: UserGuard, db : DbConn) -> Template {
     let mut context = HashMap::new();
-    context.insert("user_id", user.id);
+    let result = db.run(move |conn| {
+        categories::table.load::<Category>(conn).unwrap()
+    }).await;
+    
+    context.insert("categories",result );
+    
 
     let template_name = match user.role.as_str() {
         "admin" => "admin",
         "user" => "user_profile",   
         _ => "access_denied",
     };
+
+
 
     Template::render(template_name, &context)
 }
@@ -137,6 +148,7 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
 #[get("/logout")]
 pub async fn logout(cookies: &CookieJar<'_>) -> Redirect {
     cookies.remove_private("auth_token");
+    cookies.remove_private(Cookie::named("username"));
     Redirect::to("/")
 }
 

@@ -1,6 +1,7 @@
 use std::path::{Path, PathBuf};
 use diesel::RunQueryDsl;
 use rocket::fs::NamedFile;
+use rocket::http::CookieJar;
 use rocket::State;
 use rocket_dyn_templates::Template;
 use crate::database::insert_table::{InsertProd, Product};
@@ -15,16 +16,28 @@ use serde::Serialize;
 struct IndexContext {
     items: Vec<Product>,
     categoriess: Vec<Category>,
+    username: Option<String>,
 }
 
+
 #[get("/")]
-pub async fn list_of_item(pool: &State<DbPool>) -> Template {
+pub async fn list_of_item(cookies: &CookieJar<'_>, pool: &State<DbPool>) -> Template {
+    let username = cookies
+        .get_private("username")
+        .map(|cookie| cookie.value().to_string());
+
     let mut pool1 = pool.get().unwrap();
+
+    let username_clone = username.clone();
+
     let result = tokio::task::spawn_blocking(move || {
+        use crate::schema::products::dsl::*;
+        use crate::schema::categories::dsl::*;
+
         let items_result = products.load::<Product>(&mut pool1);
         let categories_result = categories.load::<Category>(&mut pool1);
         match (items_result, categories_result) {
-            (Ok(items), Ok(categoriess)) => Ok(IndexContext { items, categoriess }),
+            (Ok(items), Ok(categoriess)) => Ok(IndexContext { items, categoriess, username: username_clone }),
             _ => Err("Failed to load data"),
         }
     })

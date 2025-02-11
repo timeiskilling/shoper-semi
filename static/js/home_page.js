@@ -206,12 +206,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Modal variables
-  const addProductModal = document.getElementById('addProductModal');
   const loginModal = document.getElementById('loginModal');
   const registerModal = document.getElementById('registerModal');
   
-  const openModalButton = document.getElementById('openModalButton');
-  const closeModalButton = document.getElementById('closeModalButton');
   
   const loginButton = document.getElementById('loginButton');
   const closeLoginModalButton = document.getElementById('closeLoginModalButton');
@@ -219,18 +216,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const registerLink = document.getElementById('registerLink');
   const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
   
-  document.getElementById('openModalButton').addEventListener('click', function() {
-    document.getElementById('addProductModal').style.display = 'block';
-  });
+
 
   
-  // Відкриття/закриття модальних вікон
-  openModalButton.addEventListener('click', () => openModal(addProductModal));
-  closeModalButton.addEventListener('click', () => closeModal(addProductModal));
+
   
-  document.getElementById('closeModalButton').addEventListener('click', function() {
-    document.getElementById('addProductModal').style.display = 'none';
-  });
+
+
   loginButton.addEventListener('click', () => openModal(loginModal));
   closeLoginModalButton.addEventListener('click', () => closeModal(loginModal));
   
@@ -340,20 +332,7 @@ closeRegisterModalButton.addEventListener('click', () => closeModal(registerModa
     }
   }
   
-  function clearForm() {
-    const form = document.querySelector('#addProductModal form');
-    form.reset();
-  
-    document.getElementById('mainImagePreview').innerHTML = '';
-    document.getElementById('additionalImagesPreview').innerHTML = '';
-  
-    document.querySelectorAll('.file-name').forEach(fileNameField => {
-      fileNameField.textContent = 'No file selected';
-    });
-  
-    selectedMainImage = null;
-    selectedAdditionalImages = [];
-  }
+
   
   function applySorting() {
     const sortOption = document.getElementById('sort').value;
@@ -441,17 +420,6 @@ window.addEventListener('pageshow', function(event) {
 // Existing code in /static/js/home_page.js
 
 // Function to close the Add Product Modal
-function closeAddProductModal() {
-  const modal = document.getElementById('addProductModal');
-  modal.style.display = 'none';
-  
-  // Reset the form inside the modal
-  const form = modal.querySelector('form');
-  if (form) form.reset();
-
-  // Clear custom data and previews
-  clearCustomFormData();
-}
 
 // Function to close the Login Modal
 function closeLoginModal() {
@@ -474,7 +442,6 @@ function closeRegisterModal() {
 }
 
 // Adjust your event listeners accordingly
-document.getElementById('closeModalButton').addEventListener('click', closeAddProductModal);
 document.getElementById('closeLoginModalButton').addEventListener('click', closeLoginModal);
 document.getElementById('closeRegisterModalButton').addEventListener('click', closeRegisterModal);
 
