@@ -9,7 +9,58 @@
 </head>
 <body>
     <header>
-        <button id="openModalButton" class="add-product-button">Add product</button>
+        {{#if username}}
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <span>Привіт, {{username}}!</span>
+      <a href="/profile" class="profile-link">Профіль</a>
+      <a href="/logout" class="logout-link">Вийти</a>
+    </div>
+    {{else}}
+    <div class="user-icon">
+      <i class="fas fa-user"></i>
+      <button id="loginButton">Login</button>
+    </div>
+
+  
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closeLoginModalButton">&times;</span>
+        <h2>Авторизація</h2>
+        <form id="loginForm" method="post" action="/login">
+          <div class="form-group">
+            <label for="username">Ім'я користувача:</label>
+            <input type="text" id="username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+          <button type="submit">Увійти</button>
+        </form>
+        <p>Ще не зареєстровані? <a href="#" id="registerLink">Зареєструватися</a></p>
+      </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" id="closeRegisterModalButton">&times;</span>
+        <h2>Реєстрація</h2>
+        <form id="registerForm" method="post" action="/register">
+          <div class="form-group">
+            <label for="reg_username">Ім'я користувача:</label>
+            <input type="text" id="reg_username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_password">Пароль:</label>
+            <input type="password" id="reg_password" name="password" required>
+          </div>
+          <button type="submit">Зареєструватися</button>
+        </form>
+      </div>
+    </div>
+    {{/if}}        
         <h1><a href="/" id="authify-link" style="text-decoration: none; color: inherit;">authify</a></h1>
         <button class="cart-icon" onclick="toggleCartModal()">
             🛒<span id="cartCount">0</span>
@@ -78,59 +129,6 @@
                 </li>
                 {{/each}}
             </ul>
-            <div id="addProductModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" id="closeModalButton">&times;</span>
-                    <h2>Add new product</h2>
-                    <form action="/add_product" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" autocomplete="name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="price">Price:</label>
-                            <input type="number" id="price" name="price" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description">Description:</label>
-                            <textarea id="description" name="description"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="main_image">Main image:</label>
-                            <div class="custom-file-input">
-                                <input type="file" id="main_image" name="main_image" accept="image/*" required>
-                                <label for="main_image" class="file-button">Select file</label>
-                                <span class="file-name">No file selected</span>
-                            </div>
-                            <div class="image-preview" id="mainImagePreview"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="images">Additional image:</label>
-                            <div class="custom-file-input">
-                                <input type="file" id="images" name="images" accept="image/*" multiple>
-                                <label for="images" class="file-button">Select files</label>
-                                <span class="file-name">No files selected</span>
-                            </div>
-                            <div class="image-preview" id="additionalImagesPreview"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="category_id">Category:</label>
-                            <select id="category_id" name="category_id">
-                                {{#each categoriess}}
-                                <option value="{{id}}">{{name}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-
-                        <button type="submit">Add product</button>
-                    </form>
-                </div>
-            </div>
         </main>
     </div>
     <script src="/static/js/found.js"></script>

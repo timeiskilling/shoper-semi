@@ -26,4 +26,4 @@ async fn rocket() -> _ {
         .mount("/", routes![list_of_item,picture,product,category,search_by_query,get_categories,insetable,add_product
                             ,sorted_by,sort_products_by_category,login,register,profile,logout])
         .mount("/static", FileServer::from("static"))
-}
+}   

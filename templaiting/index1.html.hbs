@@ -13,7 +13,6 @@
 <body data-page-type="{{pageType}}" data-category-id="{{categoryId}}">
   <header>
     {{#if username}}
-    <!-- Якщо користувач авторизований -->
     <div class="user-info">
       <i class="fas fa-user-circle"></i>
       <span>Привіт, {{username}}!</span>
@@ -21,13 +20,12 @@
       <a href="/logout" class="logout-link">Вийти</a>
     </div>
     {{else}}
-    <!-- Якщо користувач не авторизований -->
     <div class="user-icon">
       <i class="fas fa-user"></i>
       <button id="loginButton">Login</button>
     </div>
 
-    <!-- Login Modal -->
+  
     <div id="loginModal" class="modal">
       <div class="modal-content">
         <span class="close-button" id="closeLoginModalButton">&times;</span>

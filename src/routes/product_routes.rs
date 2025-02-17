@@ -9,6 +9,7 @@ use crate::schema::products::dsl::*;
 use crate::schema::product_images::dsl::*;
 use rocket::serde::json::json;
 use diesel::sql_types::Text;
+use rocket::http::CookieJar;
 
 define_sql_function!(fn lower(x: Text) -> Text);
 
@@ -36,8 +37,32 @@ pub async fn product(pool: &State<DbPool>, ids: i32) -> Template {
     }
 }
 
+
+
+#[derive(serde::Serialize ,Clone)]
+struct IndexContext {
+    items: Vec<Product>,
+    username: Option<String>,
+    query_bames : String,
+}
+
+#[derive(serde::Serialize ,Clone)]
+struct NotFound {
+    username: Option<String>,
+    query : String,
+}
+
+
 #[get("/search?<query>")]
-pub async fn search_by_query(pool: &State<DbPool>, query: String) -> Template {
+pub async fn search_by_query(pool: &State<DbPool>, query: String, cookies: &CookieJar<'_>,) -> Template {
+
+    let username = cookies
+        .get_private("username")
+        .map(|cookie| cookie.value().to_string());
+
+    let username_clone = username.clone();
+
+    let queru_one = query.clone();
     let query_bames = query.clone();
     let mut conn  = pool.get().unwrap();
 
@@ -48,21 +73,27 @@ pub async fn search_by_query(pool: &State<DbPool>, query: String) -> Template {
     })
     .await;
 
-
-    let mut context = std::collections::HashMap::new();
+    let tepm = IndexContext { 
+        items: result.unwrap(), 
+        username, 
+        query_bames 
+    };
     
-    if let Ok(vecs) = result {
-        if vecs.is_empty() {
-            context.insert("error", "Нічого не знайдено за вашим запитом");
-            context.insert("query", &query_bames);
+    let temp1 = NotFound { 
+        username : username_clone.clone(), 
+        query : queru_one
+    };
 
-            return Template::render("serch_not_found", &context);
+    
+    if let vecs = tepm.clone() {
+        if vecs.items.is_empty() {
+
+            return Template::render("serch_not_found", &temp1);
         }
-        let mut context = std::collections::HashMap::new();
-        context.insert("items", vecs);
-        return Template::render("search_page", &context);
+
+        return Template::render("search_page", &tepm);
     }
 
-    context.insert("error", "Не вдалося завантажити інформацію про товари");
-    Template::render("error", &context)
+
+    Template::render("error", &tepm)
 }
