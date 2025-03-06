@@ -3,5 +3,5 @@ template_dir = "templaiting"
 secret_key = "u8v9IUZ1RV3j4l5G6hCZ+jAsVX3BZx2cK3BJ8g9HaqE="
 
 [default.databases.pg_db]
-url = "postgres://postgres:2511@localhost:5432/shop"
+url = "postgres://<username>:<password>@localhost:<port>/<table>"
 pool_size = 10
