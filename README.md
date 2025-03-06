@@ -1,1 +1,1 @@
-This project is about Rocket in Rust, but it has a lot of problems that I don't have time for :) such as using State<> unused fn like establish_conn at the moment I also used Yew as a frontend framework and fixed bugs in css since I'm not strong in frontend development.
+This project is about Rocket in Rasta, but it has a lot of problems that I don't have time for :) such as using State<> unused fn like establish_conn at the moment I would also use Yew as a frontend framework and fix the bases in css as I'm not strong in frontend development.
